@@ -7,7 +7,7 @@ Thema: Interoperabilitätsproblem im Zettelstore
 
 Ausgangssituation: Einzelne Zettel können heruntergeladen werden in verschiedenen Formaten, allerdings nicht als Einheit und können nicht automatisch in andere Zettelkästen eingepflegt werden.
 
-Ziel: Empfänger verfügen über einen erweiterten, aber in sich Konsistenten Zettelkasten mit den angefragten Informationen.
+Ziel: Empfänger verfügen über einen erweiterten, aber in sich konsistenten Zettelkasten mit den angefragten Informationen.
 
 Problem: Es besteht keine Möglichkeit, Wissenszettel in einem eingegrenzten Kontext mit Interessierten Personen zu teilen.
 
