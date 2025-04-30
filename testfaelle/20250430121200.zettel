@@ -1,0 +1,24 @@
+id: 20250430121200
+title: Test 2 für #32: Das System soll in der Lage sein, bis zu 3000 Zettel ohne spürbare Leistungseinbußen zu verarbeiten und für den Export aufzubereiten, um auch größere Wissensbestände effizient handhabbar zu machen.
+role: test
+syntax: zmk
+created: 20250430121225
+prequel: 20250430111300
+
+**Testablauf**
+
+Voraussetzung: 
+Es sind Zettel zum Exportieren vorhanden
+über 3000 Zettel wurden ausgewählt
+
+Testschritte:
+
+1. Nutzer wählt eine gültige Query aus mit über 3000 Zetteln aus
+
+2. Nutzer klick auf Export starten
+
+3. System erkennt übergröße der Datenmenge und reagiert
+
+Erwartestet Endergebnis :
+Das System bricht Exportvorgang nicht einfach kommentarlos ab.
+Es erscheint eine deutliche Fehlermeldung.
