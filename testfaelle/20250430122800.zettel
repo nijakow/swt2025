@@ -1,0 +1,24 @@
+id: 20250430122800
+title: Test 2 für #34: Als Nutzer will ich Zettel anhand einer Zettelstore-Query zum Export selektieren, weil man damit Zettel besser eingrenzen kann.
+role: test
+syntax: zmk
+created: 20250430122819
+prequel: 20250430110200
+
+**Testablauf**
+
+Voraussetzungen: Textfeld für die Filterung von Querys und exportierbare Zettel.
+
+Testschritte:
+
+1. Programm im Browser aufrufen
+
+2. Query-Selektionsmodus auswählen
+
+3. Gib eine syntaktisch ungültige Query ein
+
+4. Versuche, den Exportprozess zu starten
+
+5. Wiederhole den Test mit einer syntaktisch gültigen aber logisch leeren Query, die keine Treffer liefert
+
+Erwartetes Ergebnis: System bricht nicht ab. Es erfolgen jeweils Fehlermeldungen bei syntaktisch und semantisch fehlerhaften Querys.
