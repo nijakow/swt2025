@@ -3,5 +3,24 @@ title: Anforderungen
 role: sammlung
 syntax: zmk
 created: 20250430113313
+modified: 20250430123624
 
-TODO
+- [[Test 1 für #34: Als Nutzer will ich Zettel anhand einer Zettelstore-Query zum Export selektieren, weil man damit Zettel besser eingrenzen kann.|20250430110200]]
+
+- [[Test 1 für #32: Das System soll in der Lage sein, bis zu 3000 Zettel ohne spürbare Leistungseinbußen zu verarbeiten und für den Export aufzubereiten, um auch größere Wissensbestände effizient handhabbar zu machen.|20250430111300]]
+
+- [[Test 1 für #21: Das System soll sicherstellen, dass geblacklistete, Read Only, private und interne Zettel vom Exportvorgang ausgeschlossen sind.|20250430112000]]
+
+- [[Test 1 für #3: Als Nutzer will ich Wissenszettel zum Download markieren, weil ich gezielt mehrere relevante Zettel für den Export vorbereiten möchte.|20250430112400]]
+
+- [[Test 1: für #29: Als Nutzer will ich ausgewählte Zettel im ZIP-Dateiformat exportieren, weil ich sie als Sammlung leichter speichern und weitergeben kann.|20250430113400]]
+
+- [[Test 1 für #25: Das System soll nahtlos über die Zettelstore UI angesteuert werden.|20250430113500]]
+
+- [[Test 1 für #28: Als Nutzer will ich ausgewählte Zettel nach Kontext exportieren, weil ich effizient mit zusammengehörigen Inhalten arbeiten möchte.|20250430114200]]
+
+- [[Test 1 für #20: Das System soll sicherstellen, dass der Exportvorgang für den Nutzer verständlich und einfach durchführbar ist.|20250430114300]]
+
+- [[Test 1 für #31: Das System soll sicherstellen, dass der Exportprozess unabhängig von der Anzahl der ausgewählten Zettel ohne spürbare Verzögerungen abläuft, damit eine durchgängig flüssige Nutzererfahrung gewährleistet ist.|20250430114500]]
+
+- [[Test 1 für #9: Als Nutzer will ich eine Blacklist hinzufügen, weil ich den Export privater Zettel verhindern möchte.|20250430120200]]
