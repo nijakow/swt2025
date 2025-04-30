@@ -1,0 +1,24 @@
+id: 20250430113500
+title: Test 1 für #25: Das System soll nahtlos über die Zettelstore UI angesteuert werden.
+role: test
+syntax: zmk
+created: 20250430113510
+modified: 20250430113555
+
+**Testablauf**
+
+Voraussetzungen: Es sind Zettel für den Export vorhanden
+
+Testschritte:
+ 
+1. Programm zur Zettelauswahl öffnen  
+
+2. Zettel für den Export auswählen
+
+3. Einsehen des Zettelinhalts auswählen/ klicken 
+
+4. Zettel einsehen
+
+5. Ausgewählten Zettel exportieren
+
+Erwartetes Ergebnis: Der Nutzer kann ohne Umwege oder unnötige Navigation direkt innerhalb der UI den gewünschten Zettel auswählen, einsehen und exportieren können.
