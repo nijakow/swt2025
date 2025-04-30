@@ -3,6 +3,7 @@ title: Test 2 Das System soll in der Lage sein, bis zu 3000 Zettel ohne spürbar
 role: test
 syntax: zmk
 created: 20250430111340
+modified: 20250430111643
 
 **Testablauf**
 
@@ -12,7 +13,7 @@ max. 3000 Zettel
 Testschritte:
 1: Nutzer wählt eine gültige Query aus
 
-2: Nutzer klickt auf export starten
+2: Nutzer klickt auf Export starten
 
 3: System verarbeitet Zettel, und bündelt sie (ZIP)
 
