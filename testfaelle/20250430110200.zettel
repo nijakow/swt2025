@@ -1,0 +1,17 @@
+id: 20250430110200
+title: Test 1 für #34: Als Nutzer will ich Zettel anhand einer Zettelstore-Query zum Export selektieren, weil man damit Zettel besser eingrenzen kann.
+role: test
+syntax: zmk
+created: 20250430110228
+
+**Testablauf**
+
+Voraussetzungen: Textfeld für die Filterung von Querys
+
+Testschritte:
+
+1. In ein von uns bereitgestelltes Textfeld Querys eingeben und ausgeben lassen
+
+2. Überprüfung der ausgegebenen Querys (unnötige/passende Querys)
+
+Erwartetes Ergebnis: Erfolgreiche Filterung der Querys
