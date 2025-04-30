@@ -1,0 +1,27 @@
+id: 20250430122200
+title: Test 3 für #28: Als Nutzer will ich ausgewählte Zettel nach Kontext exportieren, weil ich effizient mit zusammengehörigen Inhalten arbeiten möchte.
+role: test
+syntax: zmk
+created: 20250430122200
+prequel: 20250430120900
+
+**Testablauf**
+
+Voraussetzung: 
+Zettel "xx" steht in keinem Kontext zu anderen 
+Checkbox: "Kontext mit exportieren" ist trotzdem verfügbar
+
+Testschritte: 
+
+1. Nutzer wählt nur Zettel "xx"
+
+2. Aktiviert "Kontext mit exportieren"
+
+3. Startet Export
+
+4. Datei wird heruntergeladen
+
+Erwartetes Ergebnis: 
+
+Datei enthält nur Zettel "xx", da es keine weiteren kontextuellen Zettel gibt
+Kein Fehler tritt auf, Export läuft wie gewohnt
