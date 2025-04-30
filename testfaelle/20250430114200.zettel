@@ -1,0 +1,26 @@
+id: 20250430114200
+title: Test 1 für #28: Als Nutzer will ich ausgewählte Zettel nach Kontext exportieren, weil ich effizient mit zusammengehörigen Inhalten arbeiten möchte.
+role: test
+syntax: zmk
+created: 20250430114242
+modified: 20250430114604
+
+**Testablauf**
+
+Voraussetzung: 
+Es existieren Zettel, mit Kontext zu mindestens einem anderen Zettel
+Oberfläche bietet Filterformular an, um mit Kontext zu exportieren
+
+Testschritte:
+1. Nutzer wählt Zettel aus
+
+2. Aktiviert Haken "Kontext mit exportieren"
+
+3. Löst Export Vorgang aus 
+
+4. Lädt Datei runter 
+
+5. In der Datei enthaltene Zettel entsprechen dem Kontext
+
+Erwartetes Ergebnis: 
+Es werden nur Zettel mit Kontext exportiert
