@@ -1,0 +1,23 @@
+id: 20250430114500
+title: Test 1 für #31: Das System soll sicherstellen, dass der Exportprozess unabhängig von der Anzahl der ausgewählten Zettel ohne spürbare Verzögerungen abläuft, damit eine durchgängig flüssige Nutzererfahrung gewährleistet ist.
+role: test
+syntax: zmk
+created: 20250430114503
+
+**Testablauf**
+
+Voraussetzungen: Alle Zettel liegen im gültigen Format vor und die Dateigröße des Exports überschreitet nicht das definierte Limit.
+
+Testschritte:
+
+1. Starte den Exportprozess des Zettelkastens mit einer definierten Menge an Zetteln
+
+2. Beginne gleichzeitig mit dem Profiling des Exportvorgangs
+
+3. Messe die Gesamtlaufzeit des Codes, bis die Exportdatei (mit Komprimierung) vollständig erzeugt wurde
+
+4. Wiederhole den Test bei unterschiedlichen Lasten (z. B. 1000, 3000, 4999 Zettel)
+
+5. Prüfe die Logdateien und Profiling-Ergebnisse auf Engpässe oder Überschreitungen
+
+Erwartetes Ergebnis: Der Exportprozess (mit Komprimierung) terminiert in weniger als oder genau in 5 Sekunden ohne Performanceproblemen und Blockaden.
