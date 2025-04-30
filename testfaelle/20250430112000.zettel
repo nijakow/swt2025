@@ -3,7 +3,7 @@ title: Test 1 für #21: Das System soll sicherstellen, dass geblacklistete, Read
 role: test
 syntax: zmk
 created: 20250430112050
-modified: 20250430112323
+modified: 20250430122038
 
 **Testablauf**
 
@@ -13,7 +13,7 @@ Testschritte:
  
 1. Programm zur Zettelauswahl öffnen 
 
-2.  Zettel auswählen der eine der Eigenschaften erfüllt
+2.  Zettel auswählen der die Eigenschaft Blacklist-Status erfüllt
 
 3. Diesen Zettel für den export auswählen 
 
