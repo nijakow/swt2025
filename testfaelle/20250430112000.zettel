@@ -3,6 +3,7 @@ title: Test 1 für #21: Das System soll sicherstellen, dass geblacklistete, Read
 role: test
 syntax: zmk
 created: 20250430112050
+modified: 20250430112323
 
 **Testablauf**
 
@@ -18,6 +19,4 @@ Testschritte:
 
 4. Diesen Zettel exportieren 
 
-Erwartetes Ergebnis: Die UI weist den Nutzer darauf hin das er versucht einen Zettel mit unzulässigen Eigenschaften zu exportieren 
-
-Das System soll sicherstellen, dass Zettel mit bestimmten Eigenschaften wie Blacklist-Status, Read-Only, private oder interne Zettel automatisch vom Export ausgeschlossen werden. Die UI sollte den Nutzer darauf hinweisen, wenn er versucht, Zettel mit unzulässigen Eigenschaften zu exportieren.
+Erwartetes Ergebnis: Die UI weist den Nutzer darauf hin das er versucht einen Zettel mit unzulässigen Eigenschaften zu exportieren
