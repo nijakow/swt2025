@@ -3,7 +3,7 @@ title: Test 1 für #25: Das System soll nahtlos über die Zettelstore UI angeste
 role: test
 syntax: zmk
 created: 20250430113510
-modified: 20250430113555
+modified: 20250430114253
 
 **Testablauf**
 
@@ -19,6 +19,5 @@ Testschritte:
 
 4. Zettel einsehen
 
-5. Ausgewählten Zettel exportieren
 
-Erwartetes Ergebnis: Der Nutzer kann ohne Umwege oder unnötige Navigation direkt innerhalb der UI den gewünschten Zettel auswählen, einsehen und exportieren können.
+Erwartetes Ergebnis: Der Nutzer wird an die Weboberfläche des Zettelstores weitergeleitet, um den Zettelinhalt einzusehen
