@@ -1,0 +1,23 @@
+id: 20250430120200
+title: Test 1 für #9: Als Nutzer will ich eine Blacklist hinzufügen, weil ich den Export privater Zettel verhindern möchte.
+role: test
+syntax: zmk
+created: 20250430120209
+
+**Testabläufe**
+
+Voraussetzungen: Es existieren bereits mindestens 2 Wissenszettel mit dem gleichen Inhalt, einer der Zettel soll nicht exportiert werden.
+
+Testschritte:
+
+1. Einen der beiden Wissenszettel, der zur Blacklist hinzugefügt werden soll, öffnen.
+
+2. Den Wissenszettel per Tag zur Blacklist hinzufügen.
+
+3. Die Hinterlegung des Tags per "Submit" speichern.
+
+4. Zur Wissenszettel-Übersicht navigieren und einen Suchbegriff eingeben der zum geblacklisteten Zettel passt.
+
+Erwartetes Ergebnis:
+
+Der Zettel der über den Tag zur Blacklist hinzugefügt wurde, wird nach der Eingabe des Suchbegriffs nicht in der Auswahl zum Download angezeigt, der andere Wissenszettel wird weiterhin zur Auswahl angezeigt.

@@ -1,0 +1,22 @@
+id: 20250430113400
+title: Test 1: für #29: Als Nutzer will ich ausgewählte Zettel im ZIP-Dateiformat exportieren, weil ich sie als Sammlung leichter speichern und weitergeben kann.
+role: test
+syntax: zmk
+created: 20250430113435
+
+**Testablauf:**
+
+Vorraussetzungen: Es wird mindestens ein Zettel in der Liste mit Checkboxen ausgewählt; Es gibt einen Button zum Exportieren in der UI unseres Zettel
+
+Testschritte:
+
+1. Wähle in der UI mehrere Zettel zur Exportauswahl aus mithilfe einer Liste mit Checkboxen
+
+2. Klicke auf den Button in der UI, der die Exportfunktion im ZIP-Format ermöglicht.
+
+3. Prüfe, ob die ZIP-Datei in deinen Dateien vorhanden ist.
+
+4. Überprüfe die Zetteldateien, indem du einige der exportierten Zettel öffnest und sicherstellst, dass der Inhalt korrekt ist.
+
+Erwartetes Ergebnis: 
+Die Export-Datei ist auf dem Laptop in den Dateien vorhanden und der Inhalt ist korrekt.

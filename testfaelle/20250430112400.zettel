@@ -1,0 +1,33 @@
+id: 20250430112400
+title: Test 1 für #3: Als Nutzer will ich Wissenszettel zum Download markieren, weil ich gezielt mehrere relevante Zettel für den Export vorbereiten möchte.
+role: test
+syntax: zmk
+created: 20250430112432
+
+**Testablauf**
+
+Voraussetzungen: Es müssen mindestens 3 Wissenszettel in der Übersicht sichtbar sein, bei denen der gleiche Kontext hinterlegt ist.
+
+Testschritte:
+
+1. Zur Wissenszettel-Übersicht navigieren.
+
+2. Suchbegriff zur Eingrenzung der Wissenzettel nach Kontext eingeben.
+
+3. Die erste Checkbox neben dem gewünschten Wissenszettel auswählen.
+
+4. Die zweite Checkbox neben dem gewünschten Wissenzettel auswählen.
+
+5. Die dritte Checkbox neben dem gewünschten Wissenzettel auswählen.
+
+Erwartetes Ergebnis:
+
+1. Das Suchfeld erscheint zur Eingabe.
+
+2. Nach Eingabe des Suchbegriffs erscheint die Auswahl der Zettel (nach der Kontextauswahl).
+
+3. Der ausgewählte Zettel wird visuell markiert (durch einen Haken in der Checkbox).
+
+4. Der ausgewählte Zettel wird visuell markiert und der bereits ausgewählte Zettel bleibt als markiert erkennbar.
+
+5. Der ausgewählte Zettel wird visuell markiert und alle anderen bereits ausgewählten Zettel bleiben als markiert erkennbar.
