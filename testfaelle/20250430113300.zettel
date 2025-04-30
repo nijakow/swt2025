@@ -3,7 +3,7 @@ title: Anforderungen
 role: sammlung
 syntax: zmk
 created: 20250430113313
-modified: 20250430120133
+modified: 20250430120326
 
  - [[Test 1 für #34: Als Nutzer will ich Zettel anhand einer Zettelstore-Query zum Export selektieren, weil man damit Zettel besser eingrenzen kann.|20250430110200]]
 
@@ -12,8 +12,6 @@ modified: 20250430120133
  - [[Test 1 für #21: Das System soll sicherstellen, dass geblacklistete, Read Only, private und interne Zettel vom Exportvorgang ausgeschlossen sind.|20250430112000]]
 
  - [[Test 1 für #3: Als Nutzer will ich Wissenszettel zum Download markieren, weil ich gezielt mehrere relevante Zettel für den Export vorbereiten möchte.|20250430112400]]
-
- - [[Anforderungen|20250430113300]]
 
  - [[Test 1: für #29: Als Nutzer will ich ausgewählte Zettel im ZIP-Dateiformat exportieren, weil ich sie als Sammlung leichter speichern und weitergeben kann.|20250430113400]]
 
