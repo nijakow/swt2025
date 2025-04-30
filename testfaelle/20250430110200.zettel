@@ -3,15 +3,22 @@ title: Test 1 für #34: Als Nutzer will ich Zettel anhand einer Zettelstore-Quer
 role: test
 syntax: zmk
 created: 20250430110228
+modified: 20250430111811
 
 **Testablauf**
 
-Voraussetzungen: Textfeld für die Filterung von Querys
+Voraussetzungen: Textfeld für die Filterung von Querys und exportierbare Zettel
 
 Testschritte:
 
-1. In ein von uns bereitgestelltes Textfeld Querys eingeben und ausgeben lassen
+1. Programm im Browser aufrufen
 
-2. Überprüfung der ausgegebenen Querys (unnötige/passende Querys)
+2. Query-Selektionsmodus auswählen
 
-Erwartetes Ergebnis: Erfolgreiche Filterung der Querys
+3. Eine Query die alle Zettel selektiert eingeben (exaktes Format noch undefiniert)
+
+4. Exportvorgang auslösen und exportierte Zip-Datei speichern
+
+5. Exportierte Zip-Datei öffnen und enthaltene Zettel und mit Selektionsauswahl vergleichen
+
+Erwartetes Ergebnis: Test ist bestanden, wenn die Listen eindeutige übereinstimmen
