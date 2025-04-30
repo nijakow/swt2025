@@ -1,0 +1,22 @@
+id: 20250430122100
+title: Test 2 für #21: Das System soll sicherstellen, dass geblacklistete, Read Only, private und interne Zettel vom Exportvorgang ausgeschlossen sind.
+role: test
+syntax: zmk
+created: 20250430122153
+prequel: 20250430112000
+
+**Testablauf**
+
+Voraussetzungen: Es existieren Zettel mit den Eigenschaften: Blacklist-Status, Read-Only, private oder interne Zettel
+
+Testschritte:
+ 
+1. Programm zur Zettelauswahl öffnen 
+
+2.  Zettel auswählen der die Eigenschaft Read-Only erfüllt
+
+3. Diesen Zettel für den export auswählen 
+
+4. Diesen Zettel exportieren 
+
+Erwartetes Ergebnis: Die UI weist den Nutzer darauf hin das er versucht einen Zettel mit unzulässigen Eigenschaften zu exportieren
