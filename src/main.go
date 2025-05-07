@@ -23,7 +23,21 @@ func gen_output() []File {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, World!")
+	w.Header().Set("Content-Type", "text/html")
+	fmt.Fprintf(w, `
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<title>Welcome</title>
+		</head>
+		<body>
+			<h1>Hello, World!</h1>
+			<p>Welcome to the server!</p>
+			<a href="/download">Download ZIP</a>
+			<p>Or you can <a href="/query?query=example">query a file</a>.</p>
+		</body>
+		</html>
+	`)
 }
 
 func downloader(w http.ResponseWriter, r *http.Request) {
@@ -66,9 +80,23 @@ func downloader(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func query_downloader(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query().Get("query")
+	if query == "" {
+		http.Error(w, "Missing 'query' query parameter", http.StatusBadRequest)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/plain")
+	fmt.Fprintf(w, "You requested the file: %s\n", query)
+
+	// Request to the Zettelstore
+}
+
 func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/download", downloader)
+	http.HandleFunc("/query", query_downloader)
 
 	port := "8080"
 	fmt.Printf("Starting server on port %s...\n", port)
