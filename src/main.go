@@ -25,6 +25,7 @@ func gen_output() []File {
 }
 
 type ZettelListEntry struct {
+	Id   string
 	Name string
 }
 
@@ -62,13 +63,15 @@ func get_zettel_list() ([]ZettelListEntry, error) {
 	}
 	lines := bytes.Split(buf.Bytes(), []byte("\n"))
 	for _, line := range lines {
-		// Each line is expected to be like: "00001012051200 API: List all zettel"
+		// Each line is expected to be like: "00001012051200 The name of the zettel (can contain spaces)"
 		parts := bytes.SplitN(line, []byte(" "), 2)
-		if len(parts) < 1 || len(parts[0]) == 0 {
+		if len(parts) < 2 {
 			continue
 		}
-		name := string(parts[0])
-		entries = append(entries, ZettelListEntry{Name: name})
+
+		id := string(parts[0])
+		name := string(parts[1])
+		entries = append(entries, ZettelListEntry{Id: id, Name: name})
 	}
 	return entries, nil
 }
@@ -84,7 +87,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		zettelListHTML = "<ul>"
 		for _, z := range zettels {
-			zettelListHTML += fmt.Sprintf("<li>%s</li>", z.Name)
+			// Make a link with the zettel name and referencing ZETTELSTORE_URL + "/h/" + z.Id
+			zettelListHTML += fmt.Sprintf("<li><a href=\"%s/h/%s\">%s</a></li>", ZETTELSTORE_URL, z.Id, z.Name)
 		}
 		zettelListHTML += "</ul>"
 	}
