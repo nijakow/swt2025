@@ -83,7 +83,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	zettels, err := get_zettel_list()
 	var zettelListHTML string
 	if err != nil {
-		zettelListHTML = "<p>Could not load zettel list.</p>"
+		zettelListHTML = "<p>Could not load zettel list. Please start the Zettelstore.</p>"
 	} else {
 		zettelListHTML = "<ul>"
 		for _, z := range zettels {
