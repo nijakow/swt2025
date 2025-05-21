@@ -5,9 +5,6 @@ import (
 	"net/http"
 )
 
-const ZETTELSTORE_URL = "http://localhost:23123"
-const OUR_PORT = "8080"
-
 // File struct represents a file with a name and content
 type File struct {
 	Name    string
@@ -76,6 +73,8 @@ func query_downloader(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	process_command_line_args()
+
 	// Serve static files (CSS, JS, etc.)
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
