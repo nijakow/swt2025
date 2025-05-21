@@ -23,7 +23,7 @@ func downloader(w http.ResponseWriter, r *http.Request) {
 	var buf bytes.Buffer
 	zipWriter := zip.NewWriter(&buf)
 
-	files := gen_output(selectedIds)
+	files := gen_output2(selectedIds)()
 
 	for _, file := range files {
 		fileWriter, err := zipWriter.Create(file.Name)
