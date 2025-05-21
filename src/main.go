@@ -8,6 +8,7 @@ import (
 )
 
 const ZETTELSTORE_URL = "http://localhost:23123"
+const OUR_PORT = "8080"
 
 // File struct represents a file with a name and content
 type File struct {
@@ -181,7 +182,7 @@ func main() {
 	http.HandleFunc("/download", downloader)
 	http.HandleFunc("/query", query_downloader)
 
-	port := "8080"
+	port := OUR_PORT
 	fmt.Printf("Starting server on port %s...\n", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		fmt.Printf("Error starting server: %s\n", err)
