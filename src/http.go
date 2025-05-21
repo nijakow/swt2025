@@ -8,18 +8,16 @@ import (
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	// Fetch zettel list
 	zettels, err := get_zettel_list()
 	var zettelListHTML string
 	if err != nil {
 		zettelListHTML = "<p>Could not load zettel list. Please start the Zettelstore.</p>"
 	} else {
-		zettelListHTML = "<ul>"
+		zettelListHTML = "<form action=\"/download\" method=\"post\"><ul>"
 		for _, z := range zettels {
-			// Make a link with the zettel name and referencing ZETTELSTORE_URL + "/h/" + z.Id
-			zettelListHTML += fmt.Sprintf("<li><a href=\"%s/h/%s\">%s</a></li>", ZETTELSTORE_URL, z.Id, z.Name)
+			zettelListHTML += fmt.Sprintf("<li><input type=\"checkbox\" name=\"zettelIds\" value=\"%s\"> %s</li>", z.Id, z.Name)
 		}
-		zettelListHTML += "</ul>"
+		zettelListHTML += "</ul><input type=\"submit\" value=\"Download Selected Zettel\"></form>"
 	}
 
 	fmt.Fprintf(w, `
@@ -32,18 +30,28 @@ func handler(w http.ResponseWriter, r *http.Request) {
         <body>
             <nav class="zs-menu">
                 <a href="/">Home</a>
-                <a href="/download">Download ZIP</a>
+                <a href="#" onclick="document.getElementById('downloadForm').submit();">Download ZIP</a>
                 <a href="/query?query=example">Query</a>
             </nav>
             <main>
                 <h1>Hello, World!</h1>
                 <p>Welcome to the server!</p>
-                <p><a href="/download">Download ZIP</a></p>
-                <p>Or you can <a href="/query?query=example">query a file</a>.</p>
                 <h2>Zettel List</h2>
-                %s
+                <form id="downloadForm" action="/download" method="post">
+                    <ul>
+                        %s
+                    </ul>
+                    <input type="submit" value="Download Selected Zettel" style="display:none;">
+                </form>
             </main>
         </body>
+        <script>
+            // Submit the form when the "Download ZIP" link is clicked
+            document.querySelector('.zs-menu a[href="#"]').addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+                document.getElementById('downloadForm').submit(); // Submit the form
+            });
+        </script>
         </html>
     `, zettelListHTML)
 }
