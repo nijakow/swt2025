@@ -11,23 +11,17 @@ func get_zettel_list() ([]ZettelListEntry, error) {
 
 	resp, err := http.Get(ZETTELSTORE_URL + "/z")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Fehler beim HTTP-Request: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if cerr := resp.Body.Close(); cerr != nil {
+			fmt.Printf("Warnung: Fehler beim Schließen des Response-Bodys: %v\n", cerr)
+		}
+	}()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+		return nil, fmt.Errorf("unerwarteter Statuscode vom Zettelstore: %d", resp.StatusCode)
 	}
-
-	/*
-			The format of the output is:
-			...
-		00001012051200 API: List all zettel
-		00001012050600 API: Provide an access token
-		00001012050400 API: Renew an access token
-		00001012050200 API: Authenticate a client
-		...
-	*/
 
 	// Parse the response body to extract the list of zettels
 	var entries []ZettelListEntry
@@ -36,19 +30,30 @@ func get_zettel_list() ([]ZettelListEntry, error) {
 	buf := new(bytes.Buffer)
 	_, err = buf.ReadFrom(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Fehler beim Lesen des Response-Bodys: %w", err)
 	}
 	lines := bytes.Split(buf.Bytes(), []byte("\n"))
-	for _, line := range lines {
+	for i, line := range lines {
+		if len(bytes.TrimSpace(line)) == 0 {
+			continue
+		}
 		// Each line is expected to be like: "00001012051200 The name of the zettel (can contain spaces)"
 		parts := bytes.SplitN(line, []byte(" "), 2)
 		if len(parts) < 2 {
+			fmt.Printf("Warnung: Zeile %d konnte nicht geparst werden: %q\n", i+1, line)
 			continue
 		}
 
 		id := string(parts[0])
 		name := string(parts[1])
+		if id == "" || name == "" {
+			fmt.Printf("Warnung: Leere ID oder Name in Zeile %d: %q\n", i+1, line)
+			continue
+		}
 		entries = append(entries, ZettelListEntry{Id: id, Name: name})
+	}
+	if len(entries) == 0 {
+		return nil, fmt.Errorf("keine Zettel gefunden oder alle Zeilen fehlerhaft")
 	}
 	return entries, nil
 }
