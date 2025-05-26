@@ -9,10 +9,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
 	// Fetch zettel list
-	zettels, err := get_zettel_list()
+	zettels, errMsg := get_zettel_list()
 	var zettelListHTML string
-	if err != nil {
-		zettelListHTML = "<p>Could not load zettel list. Please start the Zettelstore.</p>"
+	if errMsg != "" {
+		// Fehlermeldung aus select.go anzeigen
+		zettelListHTML = errMsg
 	} else {
 		zettelListHTML = "<ul>"
 		for _, z := range zettels {
