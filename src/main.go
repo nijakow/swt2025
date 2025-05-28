@@ -11,6 +11,10 @@ type File struct {
 	Content string
 }
 
+func aboutHandler(w http.ResponseWriter, r *http.Request){
+	fmt.Fprintln(w, "About Page")
+}
+
 type ZettelListEntry struct {
 	Id   string
 	Name string
