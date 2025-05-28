@@ -34,6 +34,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
                 <a href="/download">Download ZIP</a>
                 <a href="/query?query=example">Query</a>
             </nav>
+			<nav>
+			<a href="/">Home</a>
+			<a href="/about">About</a>
+			</nav>
             <main>
                 <h1>Hello, World!</h1>
                 <p>Welcome to the server!</p>
@@ -50,6 +54,27 @@ func handler(w http.ResponseWriter, r *http.Request) {
         </body>
         </html>
     `, zettelListHTML)
+}
+
+func aboutHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    fmt.Fprint(w, `
+        <!DOCTYPE html>
+        <html>
+        <head><title>About</title></head>
+        <body>
+            <h1>Über dieses Tool</h1>
+            <p>Dieses Tool ermöglicht die Suche und den Export von Zetteln aus dem Zettelstore als ZIP-Datei.</p>
+            <ul>
+                <li>Suche mit Queries im Suchfeld</li>
+                <li>Auswahl mehrerer Zettel für den Export</li>
+                <li>Export als ZIP-Archiv</li>
+            </ul>
+            <p>Weitere Infos zu Startparametern siehe <code>--help</code> auf der Kommandozeile.</p>
+            <p><a href="/">Zurück zur Startseite</a></p>
+        </body>
+        </html>
+    `)
 }
 
 func query_downloader(w http.ResponseWriter, r *http.Request) {
