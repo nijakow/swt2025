@@ -3,21 +3,19 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	// Fetch zettel list
 	zettels, errMsg := get_zettel_list()
 	var zettelListHTML string
 	if errMsg != "" {
-		// Fehlermeldung aus select.go anzeigen
-		zettelListHTML = errMsg
+		zettelListHTML = fmt.Sprintf("<p>Error: %s</p>", errMsg)
 	} else {
 		zettelListHTML = "<ul>"
 		for _, z := range zettels {
-			// Make a link with the zettel name and referencing ZETTELSTORE_URL + "/h/" + z.Id
 			zettelListHTML += fmt.Sprintf("<li><a href=\"%s/h/%s\">%s</a></li>", ZETTELSTORE_URL, z.Id, z.Name)
 		}
 		zettelListHTML += "</ul>"
@@ -28,7 +26,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
         <html>
         <head>
             <title>Welcome</title>
-			<link rel="stylesheet" href="/static/css/styles.css">
+            <link rel="stylesheet" href="/static/css/styles.css">
         </head>
         <body>
             <nav class="zs-menu">
@@ -41,6 +39,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
                 <p>Welcome to the server!</p>
                 <p><a href="/download">Download ZIP</a></p>
                 <p>Or you can <a href="/query?query=example">query a file</a>.</p>
+                <h2>Search Zettel</h2>
+                <form action="/query" method="GET">
+                    <input type="text" name="query" placeholder="Search for Zettel..." class="zs-input">
+                    <button type="submit" class="zs-primary">Search</button>
+                </form>
                 <h2>Zettel List</h2>
                 %s
             </main>
@@ -56,8 +59,31 @@ func query_downloader(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/plain")
-	fmt.Fprintf(w, "You requested the file: %s\n", query)
+	zettels, errMsg := get_zettel_list()
+	if errMsg != "" {
+		http.Error(w, "Failed to fetch Zettel list: "+errMsg, http.StatusInternalServerError)
+		return
+	}
 
-	// Request to the Zettelstore
+	var results []ZettelListEntry
+	for _, z := range zettels {
+		if containsIgnoreCase(z.Name, query) {
+			results = append(results, z)
+		}
+	}
+
+	w.Header().Set("Content-Type", "text/html")
+	if len(results) == 0 {
+		fmt.Fprintf(w, "<p>No results found for query: %s</p>", query)
+	} else {
+		fmt.Fprintf(w, "<h1>Search Results for '%s'</h1><ul>", query)
+		for _, z := range results {
+			fmt.Fprintf(w, "<li><a href=\"%s/h/%s\">%s</a></li>", ZETTELSTORE_URL, z.Id, z.Name)
+		}
+		fmt.Fprintf(w, "</ul>")
+	}
+}
+
+func containsIgnoreCase(str, substr string) bool {
+	return strings.Contains(strings.ToLower(str), strings.ToLower(substr))
 }
