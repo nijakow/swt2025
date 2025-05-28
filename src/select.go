@@ -8,10 +8,13 @@ package main
 // 'bytes' importiert das Paket für Byte-Operationen
 // 'io' importiert das Paket für Ein-/Ausgabe-Operationen
 // 'net/http' importiert das Paket für HTTP-Kommunikation
+// 'regexp' importiert das Paket für reguläre Ausdrücke
+// 'strings' importiert das Paket für String-Operationen
 import (
 	"bytes"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // 'get_zettel_list' ruft eine Liste von Zetteln vom Zettelstore über HTTP ab
@@ -36,9 +39,31 @@ func get_zettel_list() ([]ZettelListEntry, string) {
 	// ermöglicht eine bessere Testbarkeit und Wiederverwendbarkeit der Funktion
 	entries, errMsg := parse_zettel_list(resp.Body)
 
-	// 'return' gibt die Liste der Zettel und ggf. eine Fehlermeldung zurück
+	// if-Schleife prüft, ob beim Parsen der Zettelliste ein Fehler aufgetreten ist
+	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
+	if errMsg != "" {
+		return nil, "Error while parsing the zettel list."
+	}
+
+	// 'getZettelIDToTagsMap' holt die Map ZettelID -> Tags
+	// ruft die Funktion auf, die für jede Zettel-ID die zugehörigen Tags liefert
+	zettelIDToTags, tagErr := getZettelIDToTagsMap()
+
+	// if-Schleife prüft, ob beim Abrufen der Tags ein Fehler aufgetreten ist
+	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
+	if tagErr != "" {
+		return nil, "Error while retrieving tags."
+	}
+
+	// for-Schleife weist jedem Zettel in der Liste die passenden Tags zu
+	// ermöglicht die Zuordnung von Tags zu den Zetteln
+	for i, entry := range entries {
+		entries[i].Tags = zettelIDToTags[entry.Id]
+	}
+
+	// 'return' gibt die fertige Zettelliste (inklusive Tags) und eine leere Fehlermeldung zurück
 	// liefert das Ergebnis an die Weboberfläche oder andere Aufrufer
-	return entries, errMsg
+	return entries, ""
 }
 
 // 'parse_zettel_list' verarbeitet die Zettelliste aus einem Reader
@@ -61,7 +86,7 @@ func parse_zettel_list(r io.Reader) ([]ZettelListEntry, string) {
 		return nil, "Failed to read the zettel list. Please ensure that Zettelstore is running."
 	}
 
-	// 'lines' teilt den Buffer in einzelne Zeilen auf
+	// 'bytes.Split' teilt den Buffer in einzelne Zeilen auf
 	// ermöglicht die Verarbeitung jeder Zeile einzeln, um Zettel zu extrahieren
 	lines := bytes.Split(buf.Bytes(), []byte("\n"))
 
@@ -75,7 +100,7 @@ func parse_zettel_list(r io.Reader) ([]ZettelListEntry, string) {
 			continue
 		}
 
-		// 'parts' teilt die Zeile in ID und Name auf
+		// 'bytes.SplitN' teilt die Zeile in zwei Teile: ID und Name
 		// ermöglicht die Extraktion der Zettel-ID und des Namens
 		parts := bytes.SplitN(line, []byte(" "), 2)
 
@@ -85,9 +110,10 @@ func parse_zettel_list(r io.Reader) ([]ZettelListEntry, string) {
 			continue
 		}
 
-		// 'string' wandelt den ersten und zweiten Teil der Zeile in Strings um
+		// 'strings.TrimLeft' entfernt führende Nullen von der Zettel-ID
+		// 'string' wandelt die Byte-Slices in Strings um
 		// ermöglicht die einfache Handhabung von Zettel-IDs und Namen als Strings
-		id := string(parts[0])
+		id := strings.TrimLeft(string(parts[0]), "0")
 		name := string(parts[1])
 
 		// if-Schleife überprüft, ob ID und Name nicht leer sind
@@ -96,7 +122,7 @@ func parse_zettel_list(r io.Reader) ([]ZettelListEntry, string) {
 			continue
 		}
 
-		// 'entries' fügt einen neuen ZettelListEntry zur Liste hinzu
+		// 'append' fügt einen neuen ZettelListEntry zur Liste hinzu
 		// ermöglicht das Sammeln aller gültigen Zettel-IDs und Namen in der Liste
 		entries = append(entries, ZettelListEntry{Id: id, Name: name})
 	}

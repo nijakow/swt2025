@@ -14,6 +14,7 @@ type File struct {
 type ZettelListEntry struct {
 	Id   string
 	Name string
+	Tags []string
 }
 
 func main() {
