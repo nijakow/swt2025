@@ -131,3 +131,10 @@ func parse_zettel_list(r io.Reader) ([]ZettelListEntry, string) {
 	// liefert das Ergebnis an die Weboberfläche oder andere Aufrufer
 	return entries, ""
 }
+
+// Stub
+func getZettelIDToTagsMap() (map[string][]string, string) {
+	// This function should return a map of Zettel IDs to their tags.
+	// For now, we return an empty map and an empty error message.
+	return make(map[string][]string), ""
+}
