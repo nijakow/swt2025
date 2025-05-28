@@ -28,6 +28,7 @@ func main() {
 	http.HandleFunc("/download", downloader)
 	http.HandleFunc("/query", query_downloader)
 	http.HandleFunc("/contextDisplay", contextDisplay)
+	http.HandleFunc("/about", aboutHandler)
 
 	port := OUR_PORT
 	fmt.Printf("Starting server on port %s...\n", port)
