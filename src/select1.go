@@ -7,7 +7,7 @@ import (
 	"net/url"
 )
 
-func parseZettelList(resp *http.Response, err error) ([]ZettelListEntry, error) {
+func parse_zettel_List(resp *http.Response, err error) ([]ZettelListEntry, error) {
 	// Parse the response body to extract the list of zettels
 	var entries []ZettelListEntry
 
@@ -60,7 +60,7 @@ func freetextQuery(query string) ([]ZettelListEntry, error) {
 		return nil, fmt.Errorf("unerwarteter Statuscode vom Zettelstore: %d", resp.StatusCode)
 	}
 
-	return parseZettelList(resp, err)
+	return parse_zettel_List(resp, err)
 }
 
 func contextQuery(id string) ([]ZettelListEntry, error) {
