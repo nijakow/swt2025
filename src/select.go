@@ -1,59 +1,107 @@
+// Zettelliste abrufen und parsen
+
+// 'package main' definiert das Hauptpaket der Anwendung
+// ist notwendig, damit das Programm ausgeführt werden kann
 package main
 
+// 'import' importiert die benötigten Pakete für die Funktionalität
+// 'bytes' importiert das Paket für Byte-Operationen
+// 'io' importiert das Paket für Ein-/Ausgabe-Operationen
+// 'net/http' importiert das Paket für HTTP-Kommunikation
 import (
 	"bytes"
-	"fmt"
+	"io"
 	"net/http"
 )
 
-func get_zettel_list() ([]ZettelListEntry, error) {
-	// Fetch from the Zettelstore by using /z as the endpoint. Use a HTTP GET request.
+// 'get_zettel_list' ruft eine Liste von Zetteln vom Zettelstore über HTTP ab
+// dient als Schnittstelle zum Abrufen der Zettelliste
+func get_zettel_list() ([]ZettelListEntry, string) {
 
+	// 'http.Get' führt einen HTTP-GET-Request an die URL des Zettelstores aus
+	// notwendig um die Zettelliste zu erhalten
 	resp, err := http.Get(ZETTELSTORE_URL + "/z")
+
+	// if-Schleife prüft, ob beim HTTP-Request ein Fehler aufgetreten ist
+	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
 	if err != nil {
-		return nil, fmt.Errorf("Fehler beim HTTP-Request: %w", err)
-	}
-	defer func() {
-		if cerr := resp.Body.Close(); cerr != nil {
-			fmt.Printf("Warnung: Fehler beim Schließen des Response-Bodys: %v\n", cerr)
-		}
-	}()
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unerwarteter Statuscode vom Zettelstore: %d", resp.StatusCode)
+		return nil, "Failed to retrieve the zettel list. Please ensure that Zettelstore is running."
 	}
 
-	// Parse the response body to extract the list of zettels
+	// 'resp.Body.Close' schließt die HTTP-Verbindung am Ende der Funktion automatisch
+	// verhindert, dass offene Verbindungen Ressourcen verbrauchen
+	defer resp.Body.Close()
+
+	// 'parse_zettel_list' verarbeitet den Body der HTTP-Antwort
+	// ermöglicht eine bessere Testbarkeit und Wiederverwendbarkeit der Funktion
+	entries, errMsg := parse_zettel_list(resp.Body)
+
+	// 'return' gibt die Liste der Zettel und ggf. eine Fehlermeldung zurück
+	// liefert das Ergebnis an die Weboberfläche oder andere Aufrufer
+	return entries, errMsg
+}
+
+// 'parse_zettel_list' verarbeitet die Zettelliste aus einem Reader
+// ermöglicht das Parsen der Zettelliste unabhängig von der Datenquelle
+func parse_zettel_list(r io.Reader) ([]ZettelListEntry, string) {
+
+	// 'entries' definiert eine leere Liste von ZettelListEntry
+	// dient als Speicher für die Zettel, die aus dem Reader gelesen werden
 	var entries []ZettelListEntry
 
-	// Read the response body
+	// 'new(bytes.Buffer)' erstellt einen neuen Buffer, um die Daten aus dem Reader zu speichern
+	// 'buf.ReadForm(r)' liest die Daten aus dem Reader in den Buffer
+	// ermöglicht die Verarbeitung der gesamten Antwort als Ganzes
 	buf := new(bytes.Buffer)
-	_, err = buf.ReadFrom(resp.Body)
+	_, err := buf.ReadFrom(r)
+
+	// if-Schleife prüft, ob beim Lesen der Daten ein Fehler aufgetreten ist
+	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
 	if err != nil {
-		return nil, fmt.Errorf("Fehler beim Lesen des Response-Bodys: %w", err)
+		return nil, "Failed to read the zettel list. Please ensure that Zettelstore is running."
 	}
+
+	// 'lines' teilt den Buffer in einzelne Zeilen auf
+	// ermöglicht die Verarbeitung jeder Zeile einzeln, um Zettel zu extrahieren
 	lines := bytes.Split(buf.Bytes(), []byte("\n"))
-	for i, line := range lines {
+
+	// for-Schleife iteriert über jede Zeile der Zettelliste
+	// ermöglicht die Verarbeitung jeder Zeile, um Zettel-IDs und Namen zu extrahiere
+	for _, line := range lines {
+
+		// if-Schleife prüft, ob die Zeile leer ist
+		// ermöglicht das Überspringen von leeren Zeilen, die keine Zettel enthalten
 		if len(bytes.TrimSpace(line)) == 0 {
 			continue
 		}
-		// Each line is expected to be like: "00001012051200 The name of the zettel (can contain spaces)"
+
+		// 'parts' teilt die Zeile in ID und Name auf
+		// ermöglicht die Extraktion der Zettel-ID und des Namens
 		parts := bytes.SplitN(line, []byte(" "), 2)
+
+		// if-Schleife prüft, ob die Zeile mindestens ID und Name enthält
+		// ermöglicht das Überspringen von Zeilen, die nicht genügend Informationen enthalten
 		if len(parts) < 2 {
-			fmt.Printf("Warnung: Zeile %d konnte nicht geparst werden: %q\n", i+1, line)
 			continue
 		}
 
+		// 'string' wandelt den ersten und zweiten Teil der Zeile in Strings um
+		// ermöglicht die einfache Handhabung von Zettel-IDs und Namen als Strings
 		id := string(parts[0])
 		name := string(parts[1])
+
+		// if-Schleife überprüft, ob ID und Name nicht leer sind
+		// ermöglicht das Überspringen von ungültigen Einträgen, die keine Zettel repräsentieren
 		if id == "" || name == "" {
-			fmt.Printf("Warnung: Leere ID oder Name in Zeile %d: %q\n", i+1, line)
 			continue
 		}
+
+		// 'entries' fügt einen neuen ZettelListEntry zur Liste hinzu
+		// ermöglicht das Sammeln aller gültigen Zettel-IDs und Namen in der Liste
 		entries = append(entries, ZettelListEntry{Id: id, Name: name})
 	}
-	if len(entries) == 0 {
-		return nil, fmt.Errorf("keine Zettel gefunden oder alle Zeilen fehlerhaft")
-	}
-	return entries, nil
+
+	// 'return' gibt die Liste der Zettel und eine leere Fehlermeldung zurück
+	// liefert das Ergebnis an die Weboberfläche oder andere Aufrufer
+	return entries, ""
 }
