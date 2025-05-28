@@ -14,7 +14,6 @@ import (
 	"bytes"
 	"io"
 	"net/http"
-	"strings"
 )
 
 // 'get_zettel_list' ruft eine Liste von Zetteln vom Zettelstore über HTTP ab
@@ -113,7 +112,7 @@ func parse_zettel_list(r io.Reader) ([]ZettelListEntry, string) {
 		// 'strings.TrimLeft' entfernt führende Nullen von der Zettel-ID
 		// 'string' wandelt die Byte-Slices in Strings um
 		// ermöglicht die einfache Handhabung von Zettel-IDs und Namen als Strings
-		id := strings.TrimLeft(string(parts[0]), "0")
+		id := string(parts[0])
 		name := string(parts[1])
 
 		// if-Schleife überprüft, ob ID und Name nicht leer sind
