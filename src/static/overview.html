@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to SWT2025</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav class="zs-menu">
+        <a href="/">Home</a>
+        <a href="/download">Download ZIP</a>
+        <a href="/query?query=example">Query</a>
+    </nav>
+    <main>
+        <h1>Welcome to SWT2025</h1>
+        <p>This is the main page of the project.</p>
+
+        <section>
+            <h2>Zettel List</h2>
+            <!-- Dynamically generated Zettel list will be inserted here -->
+            {{ .ZettelList }}
+        </section>
+
+        <section>
+            <h2>Configuration</h2>
+            <p>Current Zettelstore URL: <strong>{{ .ZettelstoreURL }}</strong></p>
+            <p>Server is running on port: <strong>{{ .Port }}</strong></p>
+        </section>
+
+        <section>
+            <h2>Content</h2>
+            <p>Here you can manage and view your content.</p>
+            <ul>
+                <li><a href="/content/view">View Content</a></li>
+                <li><a href="/content/add">Add New Content</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Download ZIP</h2>
+            <p>Click the button below to download all files as a ZIP archive:</p>
+            <a href="/download" class="button">Download ZIP</a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 SWT2025 Project. All rights reserved.</p>
+    </footer>
+</body>
+</html>
