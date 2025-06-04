@@ -22,7 +22,8 @@ func main() {
 	http.HandleFunc("/download", downloader)
 	http.HandleFunc("/query", query_downloader)
 	http.HandleFunc("/contextDisplay", contextDisplay)
-	http.HandleFunc("/warenkorb", warenkorb)
+	http.HandleFunc("/warenkorb", pageWarenkorb)
+	http.HandleFunc("/list", pageList)
 	http.HandleFunc("/about", aboutHandler)
 
 	port := OUR_PORT

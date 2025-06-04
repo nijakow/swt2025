@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func warenkorb(w http.ResponseWriter, r *http.Request) {
+func pageWarenkorb(w http.ResponseWriter, r *http.Request) {
 	session := HandleCookies(w, r)
 	constructPage(w,
 		fmt.Sprintf(`
