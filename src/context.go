@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"net/http"
 )
 
 func generateSessionID() string {
@@ -34,4 +35,35 @@ func (c *Context) CreateSession() (string, *Session) {
 	session := NewSession()
 	c.Sessions[sessionID] = session
 	return sessionID, session
+}
+
+// Create a global context variable
+var GlobalContext = NewContext()
+
+// Create a system that handles the cookie stuff based on a HTTP request
+type CookieBlock struct {
+	cookie  string
+	Session *Session
+}
+
+func handleRequestCookie(request *http.Request) *CookieBlock {
+	cookie, err := request.Cookie("session_id")
+	if err != nil {
+		return nil
+	}
+
+	session := GlobalContext.GetSession(cookie.Value)
+	if session == nil {
+		return nil
+	}
+
+	return &CookieBlock{
+		cookie:  cookie.Value,
+		Session: session,
+	}
+}
+
+// Make sure the correct headers are sent
+func handleResponseCookie(w http.ResponseWriter, block *CookieBlock) {
+	w.Header().Set("Set-Cookie", fmt.Sprintf("session_id=%s; Path=/; HttpOnly; Secure", block.cookie))
 }
