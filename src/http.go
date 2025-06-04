@@ -32,14 +32,17 @@ func constructPage(w http.ResponseWriter, content string) {
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	zettels, errMsg := get_zettel_list()
+	zettels, errMsg := fetchZettelWithTags()
 	var zettelListHTML string
 	if errMsg != "" {
 		zettelListHTML = fmt.Sprintf("<p>Error: %s</p>", errMsg)
 	} else {
 		zettelListHTML = "<ul>"
 		for _, z := range zettels {
-			zettelListHTML += fmt.Sprintf("<li><a href=\"%s/h/%s\">%s</a></li>", ZETTELSTORE_URL, z.Id, z.Name)
+			zettelListHTML += fmt.Sprintf(
+				`<li>%s <a href="%s/h/%s">%s</a> %s</li>`,
+				z.Id, ZETTELSTORE_URL, z.Id, z.Name, strings.Join(z.Tags, ", "),
+			)
 		}
 		zettelListHTML += "</ul>"
 	}
@@ -92,7 +95,7 @@ func query_downloader(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	zettels, errMsg := get_zettel_list()
+	zettels, errMsg := fetchZettelWithTags()
 	if errMsg != "" {
 		http.Error(w, "Failed to fetch Zettel list: "+errMsg, http.StatusInternalServerError)
 		return
@@ -101,7 +104,11 @@ func query_downloader(w http.ResponseWriter, r *http.Request) {
 	var results []ZettelListEntry
 	for _, z := range zettels {
 		if containsIgnoreCase(z.Name, query) {
-			results = append(results, z)
+			results = append(results, ZettelListEntry{
+				Id:   z.Id,
+				Name: z.Name,
+				Tags: z.Tags,
+			})
 		}
 	}
 
@@ -111,7 +118,8 @@ func query_downloader(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Fprintf(w, "<h1>Search Results for '%s'</h1><ul>", query)
 		for _, z := range results {
-			fmt.Fprintf(w, "<li><a href=\"%s/h/%s\">%s</a></li>", ZETTELSTORE_URL, z.Id, z.Name)
+			fmt.Fprintf(w, "<li><a href=\"%s/h/%s\">%s</a> <span class='tags'>[%s]</span></li>",
+				ZETTELSTORE_URL, z.Id, z.Name, strings.Join(z.Tags, ", "))
 		}
 		fmt.Fprintf(w, "</ul>")
 	}
