@@ -23,13 +23,14 @@ Abschlusspräsentation: 18.06.2025
 
 Meilensteine:
 
-Erste Datei wird exportiert
-Themenbereiche können markiert werden
-Integration im UI funktioniert
-(Zip-)Komprimierung funktioniert
+Erste Datei wird exportiert  
+Themenbereiche können markiert werden  
+Integration im UI funktioniert  
+(Zip-)Komprimierung funktioniert  
+
 Personal:
 
-Eric Nijakowski Lamia Oktay Mary Williams Mia Braun Dariana Barkov Stefanie Haag Melih Akbulut
+Eric Nijakowski  Lamia Oktay  Mary Williams  Mia Braun  Dariana Barkov  Stefanie Haag  Melih Akbulut
 
 ### Kurzbeschreibung
 Wir, als Gruppe 03, Wissenszetteltransfer werden dieses Semester dem Nutzer die Möglichkeit bieten, Wissenszettel in einem eingegrenzten Kontext mit Interessierten Personen zu teilen um den Zettelkasten mit einer Transfermöglichkeit zu erweitern.
