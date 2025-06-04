@@ -11,12 +11,6 @@ type File struct {
 	Content string
 }
 
-type ZettelListEntry struct {
-	Id   string
-	Name string
-	Tags []string
-}
-
 func main() {
 	process_command_line_args()
 
@@ -28,6 +22,7 @@ func main() {
 	http.HandleFunc("/download", downloader)
 	http.HandleFunc("/query", query_downloader)
 	http.HandleFunc("/contextDisplay", contextDisplay)
+	http.HandleFunc("/warenkorb", warenkorb)
 	http.HandleFunc("/about", aboutHandler)
 
 	port := OUR_PORT

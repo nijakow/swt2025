@@ -6,6 +6,29 @@ import (
 	"strings"
 )
 
+func constructPage(w http.ResponseWriter, content string) {
+	fmt.Fprintf(w, `
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<title>Welcome</title>
+			<link rel="stylesheet" href="/static/css/styles.css">
+		</head>
+		<body>
+			<nav class="zs-menu">
+				<a href="/">Home</a>
+				<a href="/download">Download ZIP</a>
+				<a href="/query?query=example">Query</a>
+				<a href="/warenkorb">Warenkorb!!!</a>
+			</nav>
+			<main>
+				%s
+			</main>
+		</body>
+		</html>
+	`, content)
+}
+
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
@@ -21,24 +44,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		zettelListHTML += "</ul>"
 	}
 
-	fmt.Fprintf(w, `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Welcome</title>
-            <link rel="stylesheet" href="/static/css/styles.css">
-        </head>
-        <body>
-            <nav class="zs-menu">
-                <a href="/">Home</a>
-                <a href="/download">Download ZIP</a>
-                <a href="/query?query=example">Query</a>
-            </nav>
-			<nav>
-			<a href="/">Home</a>
-			<a href="/about">About</a>
-			</nav>
-            <main>
+	constructPage(w,
+		fmt.Sprintf(`
                 <h1>Hello, World!</h1>
                 <p>Welcome to the server!</p>
                 <p><a href="/download">Download ZIP</a></p>
@@ -50,10 +57,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
                 </form>
                 <h2>Zettel List</h2>
                 %s
-            </main>
-        </body>
-        </html>
-    `, zettelListHTML)
+    `, zettelListHTML),
+	)
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
