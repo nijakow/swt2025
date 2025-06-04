@@ -30,7 +30,13 @@ Integration im UI funktioniert
 
 Personal:
 
-Eric Nijakowski  Lamia Oktay  Mary Williams  Mia Braun  Dariana Barkov  Stefanie Haag  Melih Akbulut
+Eric Nijakowski  
+Lamia Oktay  
+Mary Williams  
+Mia Braun  
+Dariana Barkov  
+Stefanie Haag  
+Melih Akbulut
 
 ### Kurzbeschreibung
 Wir, als Gruppe 03, Wissenszetteltransfer werden dieses Semester dem Nutzer die Möglichkeit bieten, Wissenszettel in einem eingegrenzten Kontext mit Interessierten Personen zu teilen um den Zettelkasten mit einer Transfermöglichkeit zu erweitern.
@@ -46,7 +52,6 @@ Das Repository wurde bereits heruntergeladen und entpackt oder per `git clone` g
 
 ### Ausführungsschritte:
 
-ZIP 'Wissenszetteltransfer' Runterladen  
 mit 'cd src' den Ordner auswählen  
 'go build' eingeben  
 './wissenszetteltransfer.exe' ausführen unter Windows oder Mac: './wissenszetteltransfer'  
