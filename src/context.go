@@ -46,7 +46,7 @@ type CookieBlock struct {
 	Session   *Session
 }
 
-func handleRequestCookie(request *http.Request) CookieBlock {
+func HandleRequestCookie(request *http.Request) CookieBlock {
 	cookie, err := request.Cookie("session_id")
 
 	var session *Session
@@ -66,6 +66,6 @@ func handleRequestCookie(request *http.Request) CookieBlock {
 }
 
 // Make sure the correct headers are sent
-func handleResponseCookie(w http.ResponseWriter, block *CookieBlock) {
+func HandleResponseCookie(w http.ResponseWriter, block *CookieBlock) {
 	w.Header().Set("Set-Cookie", fmt.Sprintf("session_id=%s; Path=/; HttpOnly; Secure", block.sessionid))
 }
