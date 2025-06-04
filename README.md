@@ -18,7 +18,7 @@ Rahmenbedingungen:
 Zettel im kompatiblen Format vorhanden.
 Es müssen keine Metadaten exportiert werden.
 Es müssen keine angehängten Dateien exportiert werden.
-Dateinamen müssen Unique sein. (Kein Merging)
+Dateinamen müssen Unique sein (Kein Merging).  
 Abschlusspräsentation: 18.06.2025
 
 Meilensteine:
@@ -37,16 +37,18 @@ Wir, als Gruppe 03, Wissenszetteltransfer werden dieses Semester dem Nutzer die 
 ## Anleitung
 
 ### Vorraussetzung:
-go 1.24.3 ist installiert
-Zettelstore 0.20 oder 0.21 vorhanden und unter http://localhost:23123/ erreichbar und läuft im Hintergrund
-Browser entweder Firefox (>=139) oder Chrome (>=137)
+
+go 1.24.3 ist installiert  
+Zettelstore 0.20 oder 0.21 vorhanden und unter http://localhost:23123/ erreichbar und läuft im Hintergrund  
+Browser entweder Firefox (>=139) oder Chrome (>=137)  
 Das Repository wurde bereits heruntergeladen und entpackt oder per `git clone` geklont
 
 ### Ausführungsschritte:
-ZIP 'Wissenszetteltransfer' Runterladen
-mit 'cd src' den Ordner auswählen
-'go build' eingeben
-'./wissenszetteltransfer.exe' ausführen unter Windows oder Mac: './wissenszetteltransfer'
+
+ZIP 'Wissenszetteltransfer' Runterladen  
+mit 'cd src' den Ordner auswählen  
+'go build' eingeben  
+'./wissenszetteltransfer.exe' ausführen unter Windows oder Mac: './wissenszetteltransfer'  
 'http://localhost:8080/' eingeben im Browser
 
 
