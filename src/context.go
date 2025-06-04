@@ -55,6 +55,9 @@ func HandleRequestCookie(request *http.Request) CookieBlock {
 	if err == nil {
 		sessionid = cookie.Value
 		session = GlobalContext.GetSession(sessionid)
+		if session == nil {
+			sessionid, session = GlobalContext.CreateSession()
+		}
 	} else {
 		sessionid, session = GlobalContext.CreateSession()
 	}
@@ -67,5 +70,17 @@ func HandleRequestCookie(request *http.Request) CookieBlock {
 
 // Make sure the correct headers are sent
 func HandleResponseCookie(w http.ResponseWriter, block *CookieBlock) {
-	w.Header().Set("Set-Cookie", fmt.Sprintf("session_id=%s; Path=/; HttpOnly; Secure", block.sessionid))
+	http.SetCookie(w, &http.Cookie{
+		Name:     "session_id",
+		Value:    block.sessionid,
+		Path:     "/",
+		HttpOnly: false,
+	})
+}
+
+func HandleCookies(w http.ResponseWriter, r *http.Request) *Session {
+	block := HandleRequestCookie(r)
+	session := block.Session
+	HandleResponseCookie(w, &block)
+	return session
 }
