@@ -57,13 +57,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "text/html; charset=utf-8")
-    fmt.Fprint(w, `
+	session := HandleCookies(w, r)
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	fmt.Fprintf(w, `
         <!DOCTYPE html>
         <html>
         <head><title>About</title></head>
         <body>
             <h1>Über dieses Tool</h1>
+			<p>Session: %s</p>
             <p>Dieses Tool ermöglicht die Suche und den Export von Zetteln aus dem Zettelstore als ZIP-Datei.</p>
             <ul>
                 <li>Suche mit Queries im Suchfeld</li>
@@ -74,7 +76,8 @@ func aboutHandler(w http.ResponseWriter, r *http.Request) {
             <p><a href="/">Zurück zur Startseite</a></p>
         </body>
         </html>
-    `)
+    `,
+		session.Name)
 }
 
 func query_downloader(w http.ResponseWriter, r *http.Request) {
