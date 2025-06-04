@@ -54,7 +54,7 @@ Das Repository wurde bereits heruntergeladen und entpackt oder per `git clone` g
 
 mit 'cd src' den Ordner auswählen  
 'go build' eingeben  
-'./wissenszetteltransfer.exe' ausführen unter Windows oder Mac: './wissenszetteltransfer'  
+'./wissenszetteltransfer.exe' ausführen unter Windows oder Mac / Linux: './wissenszetteltransfer'  
 'http://localhost:8080/' eingeben im Browser
 
 
