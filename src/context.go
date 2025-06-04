@@ -42,28 +42,30 @@ var GlobalContext = NewContext()
 
 // Create a system that handles the cookie stuff based on a HTTP request
 type CookieBlock struct {
-	cookie  string
-	Session *Session
+	sessionid string
+	Session   *Session
 }
 
-func handleRequestCookie(request *http.Request) *CookieBlock {
+func handleRequestCookie(request *http.Request) CookieBlock {
 	cookie, err := request.Cookie("session_id")
-	if err != nil {
-		return nil
+
+	var session *Session
+	var sessionid string
+
+	if err == nil {
+		sessionid = cookie.Value
+		session = GlobalContext.GetSession(sessionid)
+	} else {
+		sessionid, session = GlobalContext.CreateSession()
 	}
 
-	session := GlobalContext.GetSession(cookie.Value)
-	if session == nil {
-		return nil
-	}
-
-	return &CookieBlock{
-		cookie:  cookie.Value,
-		Session: session,
+	return CookieBlock{
+		sessionid: sessionid,
+		Session:   session,
 	}
 }
 
 // Make sure the correct headers are sent
 func handleResponseCookie(w http.ResponseWriter, block *CookieBlock) {
-	w.Header().Set("Set-Cookie", fmt.Sprintf("session_id=%s; Path=/; HttpOnly; Secure", block.cookie))
+	w.Header().Set("Set-Cookie", fmt.Sprintf("session_id=%s; Path=/; HttpOnly; Secure", block.sessionid))
 }
