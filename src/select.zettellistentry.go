@@ -78,7 +78,44 @@ func getAllTagsWithZettelIDs() (map[string][]string, string) {
 	return tagMap, ""
 }
 
-// 2. Funktion: Fügt den Zetteln die Tags hinzu (basiert auf der ersten Funktion)
+// 2. Funktion: Kehrt die Tag-Zuordnung um
+
+// 'getZettelIDToTagsMap" gibt eine Map zurück: ZettelID -> []Tag
+// kehrt die Tag-Zuordnung um, sodass zu jeder Zettel-ID die zugehörigen Tags gefunden werden können
+func getZettelIDToTagsMap() (map[string][]string, string) {
+
+	// 'getAllTagsWithZettelIDs' holt die Map Tag -> []ZettelID
+	// ruft die Funktion auf, die alle Tags mit ihren Zettel-IDs liefert
+	tagMap, errMsg := getAllTagsWithZettelIDs()
+
+	// if-Statement prüft, ob beim Abrufen der Tags ein Fehler aufgetreten ist
+	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
+	if errMsg != "" {
+		return nil, "Error while parsing the zettel list."
+	}
+
+	// 'zettelIDToTags' definiert eine leere Map, die Zettel-IDs auf ihre zugehörigen Tags abbildet
+	// dient als Speicher für die Zettel-IDs und deren zugehörige Tags
+	zettelIDToTags := make(map[string][]string)
+
+	// for-Schleife iteriert über alle Tags und deren Zettel-IDs
+	// ermöglicht die Zuordnung von Tags zu den jeweiligen Zettel-IDs
+	for tag, ids := range tagMap {
+		for _, id := range ids {
+
+			// 'append' weist jedem Zettel die zugehörigen Tags hinzugefügt
+			// ermöglicht die Zuordnung von Tags zu den Zettel-IDs
+			zettelIDToTags[id] = append(zettelIDToTags[id], tag)
+		}
+	}
+
+	// 'return' gibt die Map und eine leere Fehlermeldung zurück
+	// liefert das Ergebnis an die Weboberfläche oder andere Aufrufer
+	return zettelIDToTags, ""
+
+}
+
+// 3. Funktion: Fügt den Zetteln die Tags hinzu (basierend auf den ersten beiden Funktionen)
 
 // 'fetchZettelWithTags' gibt eine Liste von Zetteln mit ihren zugehörigen Tags zurück
 // nutzt die zentrale Zettelliste und die Tag-Zuordnung
@@ -115,43 +152,6 @@ func fetchZettelWithTags() ([]ZettelListEntry, string) {
 
 	// Gibt die fertige Liste von Zetteln mit Tags und eine leere Fehlermeldung zurück
 	return entries, ""
-}
-
-// 3. Funktion: Kehrt die Tag-Zuordnung um
-
-// 'getZettelIDToTagsMap" gibt eine Map zurück: ZettelID -> []Tag
-// kehrt die Tag-Zuordnung um, sodass zu jeder Zettel-ID die zugehörigen Tags gefunden werden können
-func getZettelIDToTagsMap() (map[string][]string, string) {
-
-	// 'getAllTagsWithZettelIDs' holt die Map Tag -> []ZettelID
-	// ruft die Funktion auf, die alle Tags mit ihren Zettel-IDs liefert
-	tagMap, errMsg := getAllTagsWithZettelIDs()
-
-	// if-Statement prüft, ob beim Abrufen der Tags ein Fehler aufgetreten ist
-	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
-	if errMsg != "" {
-		return nil, "Error while parsing the zettel list."
-	}
-
-	// 'zettelIDToTags' definiert eine leere Map, die Zettel-IDs auf ihre zugehörigen Tags abbildet
-	// dient als Speicher für die Zettel-IDs und deren zugehörige Tags
-	zettelIDToTags := make(map[string][]string)
-
-	// for-Schleife iteriert über alle Tags und deren Zettel-IDs
-	// ermöglicht die Zuordnung von Tags zu den jeweiligen Zettel-IDs
-	for tag, ids := range tagMap {
-		for _, id := range ids {
-
-			// 'append' weist jedem Zettel die zugehörigen Tags hinzugefügt
-			// ermöglicht die Zuordnung von Tags zu den Zettel-IDs
-			zettelIDToTags[id] = append(zettelIDToTags[id], tag)
-		}
-	}
-
-	// 'return' gibt die Map und eine leere Fehlermeldung zurück
-	// liefert das Ergebnis an die Weboberfläche oder andere Aufrufer
-	return zettelIDToTags, ""
-
 }
 
 // Dieses File wurde mit Hilfe von GitHub Copilot erstellt.
