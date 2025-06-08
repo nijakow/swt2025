@@ -21,6 +21,7 @@ func main() {
 	 * API
 	 */
 	http.HandleFunc("/api/add", apiAdd)
+	http.HandleFunc("/api/remove", apiRemove)
 
 	/*
 	 * Static

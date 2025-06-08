@@ -29,3 +29,17 @@ func apiAdd(w http.ResponseWriter, r *http.Request) {
 	// Wir leiten den Benutzer zurück zur Ursprungsseite
 	handleApiRequestEnd(w, r, session)
 }
+
+func apiRemove(w http.ResponseWriter, r *http.Request) {
+	session := HandleCookies(w, r)
+	// Wir fragen die Zettel-ID über den URL-Parameter `id` ab
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Missing 'id' query parameter", http.StatusBadRequest)
+		return
+	}
+	// Wir entfernen den Zettel mit der angegebenen ID aus dem Warenkorb
+	session.RemoveZettel(id)
+	// Wir leiten den Benutzer zurück zur Ursprungsseite
+	handleApiRequestEnd(w, r, session)
+}
