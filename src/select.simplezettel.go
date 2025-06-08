@@ -6,7 +6,7 @@ import "fmt"
 // 'get_zettel_list' gibt eine Liste aller Zettel zurück (ohne Tags)
 // ruft die Zettelliste vom Zettelstore ab und parst sie in SimpleZettel-Structs
 func get_zettel_list() ([]SimpleZettel, string) {
-	return queryZettelstoreList("/z", true)
+	return fetchZettelstoreList("/z", true)
 }
 
 func getEnrichedZettelList(session *Session) ([]ZettelListEntry, error) {

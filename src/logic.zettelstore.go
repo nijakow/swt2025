@@ -2,8 +2,8 @@ package main
 
 import "fmt"
 
-func queryEnrichedZettelstoreList(endpoint string, session *Session, sorted bool) ([]ZettelListEntry, error) {
-	zettel, err := queryZettelstoreList(endpoint, sorted)
+func fetchEnrichedZettelstoreList(endpoint string, session *Session, sorted bool) ([]ZettelListEntry, error) {
+	zettel, err := fetchZettelstoreList(endpoint, sorted)
 	if err != "" {
 		return nil, fmt.Errorf("%s", err)
 	}
@@ -12,8 +12,18 @@ func queryEnrichedZettelstoreList(endpoint string, session *Session, sorted bool
 	return enrichSimpleZettelList(zettel, session), nil
 }
 
-func queryEnrichedZettelstoreQuery(query string, session *Session, sorted bool) ([]ZettelListEntry, error) {
-	zettel, err := queryZettelstoreQuery(query, sorted)
+func fetchEnrichedZettelstoreQuery(query string, session *Session, sorted bool) ([]ZettelListEntry, error) {
+	zettel, err := fetchZettelstoreQuery(query, sorted)
+	if err != "" {
+		return nil, fmt.Errorf("%s", err)
+	}
+
+	// Anreichern der einfachen Zettel mit ihren Titeln
+	return enrichSimpleZettelList(zettel, session), nil
+}
+
+func fetchEnrichedZettelstoreContext(id string, session *Session, sorted bool) ([]ZettelListEntry, error) {
+	zettel, err := fetchZettelstoreContext(id, sorted)
 	if err != "" {
 		return nil, fmt.Errorf("%s", err)
 	}

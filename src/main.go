@@ -36,6 +36,7 @@ func main() {
 	http.HandleFunc("/warenkorb", pageWarenkorb)
 	http.HandleFunc("/about", pageAbout)
 	http.HandleFunc("/query", pageQuery)
+	http.HandleFunc("/context", pageContext)
 
 	/*
 	 * Debug endpoints

@@ -2,7 +2,7 @@ package main
 
 import "net/http"
 
-func queryZettelstoreList(endpoint string, sorted bool) ([]SimpleZettel, string) {
+func fetchZettelstoreList(endpoint string, sorted bool) ([]SimpleZettel, string) {
 	// Führt einen HTTP-GET-Request an den Zettelstore aus
 	resp, err := http.Get(ZETTELSTORE_URL + endpoint)
 
@@ -10,6 +10,10 @@ func queryZettelstoreList(endpoint string, sorted bool) ([]SimpleZettel, string)
 	return parseSimpleZettelsFromResponse(resp, err, sorted)
 }
 
-func queryZettelstoreQuery(query string, sorted bool) ([]SimpleZettel, string) {
-	return queryZettelstoreList("/z?q="+query, sorted)
+func fetchZettelstoreQuery(query string, sorted bool) ([]SimpleZettel, string) {
+	return fetchZettelstoreList("/z?q="+query, sorted)
+}
+
+func fetchZettelstoreContext(id string, sorted bool) ([]SimpleZettel, string) {
+	return fetchZettelstoreQuery("CONTEXT "+id, sorted)
 }
