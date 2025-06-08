@@ -9,13 +9,6 @@ import (
 	"strings"
 )
 
-// struct für einen Zettel mit ID, Name und Tags
-type ZettelListEntry struct {
-	Id   string
-	Name string
-	Tags []string
-}
-
 //1. Funktion: Ruft die Zettel-IDs und Tags vom Zettelstore ab
 
 // 'getAllTagsWithZettelIDs' gibt eine Map zurück: Tag -> ZettelID
