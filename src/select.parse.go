@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"net/http"
 	"sort"
 )
 
@@ -14,10 +15,13 @@ type SimpleZettel struct {
 func simpleZettelCompare(a *SimpleZettel, b *SimpleZettel) bool {
 	// Vergleicht zwei SimpleZettel nach ID
 	// Gibt true zurück, wenn die ID von a kleiner ist als die von b
+	/*
+	 * Der folgende Vergleich `a.Id < b.Id` wurde mithilfe von GitHub Copilot erzeugt.
+	 */
 	return a.Id < b.Id
 }
 
-func parseZettelstoreResponse(buffer *bytes.Buffer, err error, sorted bool) ([]SimpleZettel, string) {
+func parseZettelstoreResponseContent(buffer *bytes.Buffer, err error, sorted bool) ([]SimpleZettel, string) {
 	// if-Statement prüft, ob beim Lesen der Antwort ein Fehler aufgetreten ist
 	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
 	if err != nil {
@@ -53,6 +57,9 @@ func parseZettelstoreResponse(buffer *bytes.Buffer, err error, sorted bool) ([]S
 
 	// Sortieren der Zettel nach ID (falls gewünscht)
 	if sorted {
+		/*
+		 * Der folgende Funktionsaufruf `sort.Slice(...)` wurde mithilfe von GitHub Copilot erstellt.
+		 */
 		sort.Slice(entries, func(i int, j int) bool {
 			return simpleZettelCompare(&entries[i], &entries[j])
 		})
@@ -61,3 +68,34 @@ func parseZettelstoreResponse(buffer *bytes.Buffer, err error, sorted bool) ([]S
 	// Gibt die fertige Liste von Zetteln und eine leere Fehlermeldung zurück
 	return entries, ""
 }
+
+func parseZettelstoreResponse(resp *http.Response, err error, sorted bool) ([]SimpleZettel, string) {
+	// if-Statement prüft, ob beim HTTP-Request ein Fehler aufgetreten ist
+	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
+	if err != nil {
+		return nil, "Failed to read the response body."
+	}
+
+	// 'defer resp.Body.Close()' schließt die HTTP-Verbindung am Ende der Funktion automatisch
+	// verhindert, dass offene Verbindungen Ressourcen verbrauchen
+	defer resp.Body.Close()
+
+	// Erstellt einen neuen Buffer, um die Antwort zu lesen
+	buf := new(bytes.Buffer)
+	// Liest den Inhalt der Antwort in den Buffer
+	_, err = buf.ReadFrom(resp.Body)
+
+	// Ruft die Funktion auf, um die Zettel zu parsen
+	return parseZettelstoreResponseContent(buf, err, sorted)
+}
+
+func queryZettelstoreList(endpoint string, sorted bool) ([]SimpleZettel, string) {
+	// Führt einen HTTP-GET-Request an den Zettelstore aus
+	resp, err := http.Get(ZETTELSTORE_URL + endpoint)
+
+	// Ruft die Funktion auf, um die Antwort zu parsen
+	return parseZettelstoreResponse(resp, err, sorted)
+}
+
+// Teile dieses Codes wurden aus Datei select.simplezettel.go übernommen. Siehe Anmerkung dort.
+//  - EFN
