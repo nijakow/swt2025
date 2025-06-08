@@ -24,7 +24,7 @@ func main() {
 	http.HandleFunc("/contextDisplay", contextDisplay)
 	http.HandleFunc("/warenkorb", pageWarenkorb)
 	http.HandleFunc("/list", pageList)
-	http.HandleFunc("/about", aboutHandler)
+	http.HandleFunc("/about", pageAbout)
 
 	port := OUR_PORT
 	fmt.Printf("Starting server on port %s...\n", port)

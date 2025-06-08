@@ -22,6 +22,7 @@ func constructPage(w http.ResponseWriter, content string) {
 				<!-- <a href="/query?query=example">Query</a> -->
 				<a href="/list">Zettelliste</a>
 				<a href="/warenkorb">Warenkorb</a>
+				<a href="/about">About</a>
 			</nav>
 			<main>
 				%s
@@ -63,30 +64,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
     `, zettelListHTML),
 	)
-}
-
-func aboutHandler(w http.ResponseWriter, r *http.Request) {
-	session := HandleCookies(w, r)
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprintf(w, `
-        <!DOCTYPE html>
-        <html>
-        <head><title>About</title></head>
-        <body>
-            <h1>Über dieses Tool</h1>
-			<p>Session: %s</p>
-            <p>Dieses Tool ermöglicht die Suche und den Export von Zetteln aus dem Zettelstore als ZIP-Datei.</p>
-            <ul>
-                <li>Suche mit Queries im Suchfeld</li>
-                <li>Auswahl mehrerer Zettel für den Export</li>
-                <li>Export als ZIP-Archiv</li>
-            </ul>
-            <p>Weitere Infos zu Startparametern siehe <code>--help</code> auf der Kommandozeile.</p>
-            <p><a href="/">Zurück zur Startseite</a></p>
-        </body>
-        </html>
-    `,
-		session.Name)
 }
 
 func query_downloader(w http.ResponseWriter, r *http.Request) {
