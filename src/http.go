@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"html"
 	"net/http"
-	"strings"
 )
 
 func constructPage(w http.ResponseWriter, content string) {
@@ -19,8 +17,6 @@ func constructPage(w http.ResponseWriter, content string) {
 		<body>
 			<nav class="zs-menu">
 				<a href="/">Home</a>
-				<!-- <a href="/download">Download ZIP</a> -->
-				<!-- <a href="/query?query=example">Query</a> -->
 				<a href="/list">Zettelliste</a>
 				<a href="/warenkorb">Warenkorb</a>
 				<a href="/about">About</a>
@@ -31,113 +27,4 @@ func constructPage(w http.ResponseWriter, content string) {
 		</body>
 		</html>
 	`, content)
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-
-	// Hole die Zettelliste mit Tags
-	zettels, errMsg := fetchZettelWithTags()
-	var zettelListHTML string
-	if errMsg != "" {
-		zettelListHTML = fmt.Sprintf("<p>Error: %s</p>", errMsg)
-	} else {
-		// Verwende die neue Funktion genZettelList, um die HTML-Liste zu generieren
-		zettelListHTML = genZettelList(zettels)
-	}
-
-	constructPage(w,
-		fmt.Sprintf(`
-                <h1>Hello, World!</h1>
-                <p>Welcome to the server!</p>
-                <p><a href="/download">Download ZIP</a></p>
-                <p>Or you can <a href="/query?query=example">query a file</a>.</p>
-                <h2>Search Zettel</h2>
-                <form action="/query" method="GET">
-                    <input type="text" name="query" placeholder="Search for Zettel..." class="zs-input">
-                    <button type="submit" class="zs-primary">Search</button>
-                </form>
-                <h2>Zettel List</h2>
-				<form action="/download" method="POST"
-                %s
-				<button type="submit">Download Selected</button>
-				</form>
-
-    `, zettelListHTML),
-	)
-}
-
-func query_downloader(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query().Get("query")
-	if query == "" {
-		http.Error(w, "Missing 'query' query parameter", http.StatusBadRequest)
-		return
-	}
-
-	zettels, errMsg := fetchZettelWithTags()
-	if errMsg != "" {
-		http.Error(w, "Failed to fetch Zettel list: "+errMsg, http.StatusInternalServerError)
-		return
-	}
-
-	var results []ZettelListEntry
-	for _, z := range zettels {
-		if containsIgnoreCase(z.Name, query) {
-			results = append(results, ZettelListEntry{
-				Id:   z.Id,
-				Name: z.Name,
-				Tags: z.Tags,
-			})
-		}
-	}
-
-	w.Header().Set("Content-Type", "text/html")
-	if len(results) == 0 {
-		fmt.Fprintf(w, `
-        <!DOCTYPE html>
-        <html lang="de">
-        <head>
-            <meta charset="UTF-8" />
-            <title>Suchergebnisse</title>
-            <link rel="stylesheet" href="/static/css/styles.css">
-        </head>
-        <body>
-            <main class="container mx-auto p-6">
-                <h1 class="text-4xl font-bold mb-6">Suchergebnisse für '%s'</h1>
-                <p class="text-gray-500">Keine Ergebnisse gefunden.</p>
-                <p><a href="/" class="underline text-black hover:text-gray-600">Zurück zur Startseite</a></p>
-            </main>
-        </body>
-        </html>
-        `, html.EscapeString(query))
-		return
-	}
-
-	// Ergebnisse mit Checkboxen generieren
-	resultListHTML := genZettelList(results)
-	// HTML-Seite mit den Suchergebnissen
-	fmt.Fprintf(w, `
-    <!DOCTYPE html>
-    <html lang="de">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Suchergebnisse</title>
-        <link rel="stylesheet" href="/static/css/styles.css">
-    </head>
-    <body>
-        <main class="container mx-auto p-6">
-            <h1 class="text-4xl font-bold mb-6">Suchergebnisse für '%s'</h1>
-            <form action="/download" method="POST" class="space-y-6">
-                %s
-                <button type="submit" class="btn-primary">Ausgewählte Zettel herunterladen</button>
-            </form>
-            <p class="mt-8"><a href="/" class="underline text-black hover:text-gray-600">Zurück zur Startseite</a></p>
-        </main>
-    </body>
-    </html>
-    `, html.EscapeString(query), resultListHTML)
-}
-
-func containsIgnoreCase(str, substr string) bool {
-	return strings.Contains(strings.ToLower(str), strings.ToLower(substr))
 }
