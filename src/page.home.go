@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 )
 
 func pageHome(w http.ResponseWriter, r *http.Request) {
 	HandleCookies(w, r)
 	constructPage(w,
-		fmt.Sprintf(`
+		`
                 <h1>Wissenszetteltransfer</h1>
                 <p>Willkommen zum Wissenszetteltransfer!</p>
                 <form action="/query" method="GET">
@@ -16,6 +15,5 @@ func pageHome(w http.ResponseWriter, r *http.Request) {
                     <button type="submit" class="zs-primary">Search</button>
                 </form>
     	`,
-		),
 	)
 }

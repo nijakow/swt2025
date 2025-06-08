@@ -35,13 +35,13 @@ func main() {
 	http.HandleFunc("/list", pageList)
 	http.HandleFunc("/warenkorb", pageWarenkorb)
 	http.HandleFunc("/about", pageAbout)
+	http.HandleFunc("/query", pageQuery)
+	http.HandleFunc("/context", pageContext)
 
 	/*
-	 * Debug endpoints
+	 * Special
 	 */
 	http.HandleFunc("/download", apiDownload)
-	http.HandleFunc("/query", query_downloader)
-	http.HandleFunc("/contextDisplay", contextDisplay)
 
 	port := OUR_PORT
 	fmt.Printf("Starting server on port %s...\n", port)
