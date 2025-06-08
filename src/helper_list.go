@@ -33,6 +33,10 @@ func genZettelList(entries []ZettelListEntry) string {
 
 		builder.WriteString("<li>\n")
 
+		if !e.InWarenkorb {
+			builder.WriteString(fmt.Sprintf(`<a href="/api/add?id=%s" class="zs-secondary">[+]</a> `, idEscaped))
+		}
+
 		// checkbox input für anklicken
 		builder.WriteString(fmt.Sprintf(`<input type="checkbox" id="%s" name="%s" %s>`, checkboxID, idEscaped, checkboxEnabled))
 		// label mit for=checkboxID, Name anzeigen
