@@ -21,24 +21,6 @@ func (meta *SimpleZettelMeta) GetTitle() string {
 	return "Untitled"
 }
 
-func parseZettelMetadata(buffer []byte) (SimpleZettelMeta, error) {
-	// Hier wird angenommen, dass die Metadaten im Format "key: value" vorliegen
-	// Diese Funktion wurde vollständig von GitHub Copilot generiert.
-	meta := make(map[string]string)
-	lines := bytes.Split(buffer, []byte("\n"))
-
-	for _, line := range lines {
-		parts := bytes.SplitN(line, []byte(":"), 2)
-		if len(parts) == 2 {
-			key := string(bytes.TrimSpace(parts[0]))
-			value := string(bytes.TrimSpace(parts[1]))
-			meta[key] = value
-		}
-	}
-
-	return SimpleZettelMeta{Meta: meta}, nil
-}
-
 func getMetadataForZettel(id string) (SimpleZettelMeta, error) {
 	// Anfrage ist: // GET ZETTELSTORE_URL + "/z/id?part=meta"
 	resp, err := http.Get(ZETTELSTORE_URL + "/z/" + id + "?part=meta")
@@ -75,4 +57,11 @@ func getTitleOfZettel(id string) string {
 		return fmt.Sprintf(`(Untitled Zettel %s)`, id)
 	}
 	return meta.GetTitle()
+}
+
+func getZettelTitleById(id string) (string, error) {
+	// This function should fetch the title of a zettel by its ID.
+	// For now, we return a placeholder title.
+	// In a real implementation, this would query the Zettelstore or database.
+	return getTitleOfZettel(id), nil
 }

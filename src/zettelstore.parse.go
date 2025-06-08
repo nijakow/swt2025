@@ -6,22 +6,7 @@ import (
 	"sort"
 )
 
-// struct für einen Zettel mit ID und Name
-type SimpleZettel struct {
-	Id   string
-	Name string
-}
-
-func simpleZettelCompare(a *SimpleZettel, b *SimpleZettel) bool {
-	// Vergleicht zwei SimpleZettel nach ID
-	// Gibt true zurück, wenn die ID von a kleiner ist als die von b
-	/*
-	 * Der folgende Vergleich `a.Id < b.Id` wurde mithilfe von GitHub Copilot erzeugt.
-	 */
-	return a.Id < b.Id
-}
-
-func parseZettelstoreResponseContent(buffer *bytes.Buffer, err error, sorted bool) ([]SimpleZettel, string) {
+func parseSimpleZettels(buffer *bytes.Buffer, err error, sorted bool) ([]SimpleZettel, string) {
 	// if-Statement prüft, ob beim Lesen der Antwort ein Fehler aufgetreten ist
 	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
 	if err != nil {
@@ -69,7 +54,7 @@ func parseZettelstoreResponseContent(buffer *bytes.Buffer, err error, sorted boo
 	return entries, ""
 }
 
-func parseZettelstoreResponse(resp *http.Response, err error, sorted bool) ([]SimpleZettel, string) {
+func parseSimpleZettelsFromResponse(resp *http.Response, err error, sorted bool) ([]SimpleZettel, string) {
 	// if-Statement prüft, ob beim HTTP-Request ein Fehler aufgetreten ist
 	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
 	if err != nil {
@@ -86,20 +71,23 @@ func parseZettelstoreResponse(resp *http.Response, err error, sorted bool) ([]Si
 	_, err = buf.ReadFrom(resp.Body)
 
 	// Ruft die Funktion auf, um die Zettel zu parsen
-	return parseZettelstoreResponseContent(buf, err, sorted)
+	return parseSimpleZettels(buf, err, sorted)
 }
 
-func queryZettelstoreList(endpoint string, sorted bool) ([]SimpleZettel, string) {
-	// Führt einen HTTP-GET-Request an den Zettelstore aus
-	resp, err := http.Get(ZETTELSTORE_URL + endpoint)
+func parseZettelMetadata(buffer []byte) (SimpleZettelMeta, error) {
+	// Hier wird angenommen, dass die Metadaten im Format "key: value" vorliegen
+	// Diese Funktion wurde vollständig von GitHub Copilot generiert.
+	meta := make(map[string]string)
+	lines := bytes.Split(buffer, []byte("\n"))
 
-	// Ruft die Funktion auf, um die Antwort zu parsen
-	return parseZettelstoreResponse(resp, err, sorted)
+	for _, line := range lines {
+		parts := bytes.SplitN(line, []byte(":"), 2)
+		if len(parts) == 2 {
+			key := string(bytes.TrimSpace(parts[0]))
+			value := string(bytes.TrimSpace(parts[1]))
+			meta[key] = value
+		}
+	}
+
+	return SimpleZettelMeta{Meta: meta}, nil
 }
-
-func queryZettelstoreQuery(query string, sorted bool) ([]SimpleZettel, string) {
-	return queryZettelstoreList("/z?q="+query, sorted)
-}
-
-// Teile dieses Codes wurden aus Datei select.simplezettel.go übernommen. Siehe Anmerkung dort.
-//  - EFN
