@@ -17,6 +17,7 @@ func pageWarenkorb(w http.ResponseWriter, r *http.Request) {
 	constructPage(w,
 		fmt.Sprintf(`
 				<h1>Warenkorb</h1>
+				<a href="/download">Download</a><br>
 				%s
 			`,
 			warenkorbHtml,

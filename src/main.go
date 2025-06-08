@@ -39,7 +39,7 @@ func main() {
 	/*
 	 * Debug endpoints
 	 */
-	http.HandleFunc("/download", downloader)
+	http.HandleFunc("/download", apiDownload)
 	http.HandleFunc("/query", query_downloader)
 	http.HandleFunc("/contextDisplay", contextDisplay)
 
