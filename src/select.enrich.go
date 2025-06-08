@@ -7,7 +7,7 @@ func getZettelTitleById(id string) (string, error) {
 	return "Placeholder Title for " + id, nil
 }
 
-func enrichZettelId(id string) (ZettelListEntry, error) {
+func enrichZettelId(id string, session *Session) (ZettelListEntry, error) {
 	title, err := getZettelTitleById(id)
 	if err != nil {
 		return ZettelListEntry{}, err
@@ -18,10 +18,10 @@ func enrichZettelId(id string) (ZettelListEntry, error) {
 	}, nil
 }
 
-func enrichZettelIds(ids []string) ([]ZettelListEntry, error) {
+func enrichZettelIds(ids []string, session *Session) ([]ZettelListEntry, error) {
 	var entries []ZettelListEntry
 	for _, id := range ids {
-		entry, err := enrichZettelId(id)
+		entry, err := enrichZettelId(id, session)
 		if err != nil {
 			return nil, err
 		}
@@ -30,18 +30,19 @@ func enrichZettelIds(ids []string) ([]ZettelListEntry, error) {
 	return entries, nil
 }
 
-func enrichSimpleZettel(zettel SimpleZettel) ZettelListEntry {
+func enrichSimpleZettel(zettel SimpleZettel, session *Session) ZettelListEntry {
 	return ZettelListEntry{
 		Id:   zettel.Id,
 		Name: zettel.Name,
 		// Tags können hier später noch eingefügt werden
+		InWarenkorb: session.ContainsZettel(zettel.Id),
 	}
 }
 
-func enrichSimpleZettelList(entries []SimpleZettel) []ZettelListEntry {
+func enrichSimpleZettelList(entries []SimpleZettel, session *Session) []ZettelListEntry {
 	var enrichedEntries []ZettelListEntry
 	for _, zettel := range entries {
-		enrichedEntries = append(enrichedEntries, enrichSimpleZettel(zettel))
+		enrichedEntries = append(enrichedEntries, enrichSimpleZettel(zettel, session))
 	}
 	return enrichedEntries
 }

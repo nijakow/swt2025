@@ -36,6 +36,15 @@ func (s *Session) RemoveZettel(zettel string) {
 	}
 }
 
+func (s *Session) ContainsZettel(zettel string) bool {
+	for _, i := range s.SelectedZettels {
+		if i == zettel {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *Session) ClearZettels() {
 	s.SelectedZettels = make([]string, 0)
 }

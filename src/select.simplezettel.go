@@ -9,13 +9,13 @@ func get_zettel_list() ([]SimpleZettel, string) {
 	return queryZettelstoreList("/z", true)
 }
 
-func getEnrichedZettelList() ([]ZettelListEntry, error) {
+func getEnrichedZettelList(session *Session) ([]ZettelListEntry, error) {
 	simpleZettels, e := get_zettel_list()
 	if e != "" {
 		return nil, fmt.Errorf("Fehler! %s", e)
 	}
 	// Enrich the simple zettels with their titles
-	return enrichSimpleZettelList(simpleZettels), nil
+	return enrichSimpleZettelList(simpleZettels, session), nil
 }
 
 // Verbleibende Anmerkung aus Datei vor Änderungen am 08. Juni 2025:
