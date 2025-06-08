@@ -22,10 +22,12 @@ func genZettelList(entries []ZettelListEntry) string {
 		idEscaped := html.EscapeString(e.Id)
 		nameEscaped := html.EscapeString(e.Name)
 		checkboxEnabled := "checked"
+		functionToCall := "removeZettelFromWarenkorb"
 		zettelURL := ZETTELSTORE_URL + "/h/" + idEscaped
 
 		if !e.InWarenkorb {
 			checkboxEnabled = ""
+			functionToCall = "addZettelToWarenkorb"
 		}
 
 		// checkbox input mit id basierend auf der Zettel-ID (eindeutig)
@@ -38,7 +40,7 @@ func genZettelList(entries []ZettelListEntry) string {
 		}
 
 		// checkbox input für anklicken
-		builder.WriteString(fmt.Sprintf(`<input type="checkbox" id="%s" name="%s" %s>`, checkboxID, idEscaped, checkboxEnabled))
+		builder.WriteString(fmt.Sprintf(`<input type="checkbox" id="%s" name="%s" onclick="%s(%s)" %s>`, checkboxID, idEscaped, functionToCall, e.Id, checkboxEnabled))
 		// label mit for=checkboxID, Name anzeigen
 		builder.WriteString(fmt.Sprintf(`<label for="%s"><a href="%s">%s</a></label>`, checkboxID, zettelURL, nameEscaped))
 

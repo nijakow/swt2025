@@ -14,6 +14,7 @@ func constructPage(w http.ResponseWriter, content string) {
 		<head>
 			<title>Welcome</title>
 			<link rel="stylesheet" href="/static/css/styles.css">
+			<script src="/static/js/wzt.js"></script>
 		</head>
 		<body>
 			<nav class="zs-menu">
