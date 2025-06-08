@@ -8,9 +8,10 @@ import (
 
 // struct für einen Zettel mit ID, Name und Tags
 type ZettelListEntry struct {
-	Id   string
-	Name string
-	Tags []string
+	Id          string
+	Name        string
+	Tags        []string
+	InWarenkorb bool // Ob im Warenkorb
 }
 
 // genZettelList erzeugt aus einer Liste von ZettelListEntry einen HTML-String mit einer Liste plus Checkbox pro Eintrag
@@ -20,6 +21,11 @@ func genZettelList(entries []ZettelListEntry) string {
 	for _, e := range entries {
 		idEscaped := html.EscapeString(e.Id)
 		nameEscaped := html.EscapeString(e.Name)
+		checkboxEnabled := "checked"
+
+		if !e.InWarenkorb {
+			checkboxEnabled = ""
+		}
 
 		// checkbox input mit id basierend auf der Zettel-ID (eindeutig)
 		checkboxID := "chk-" + idEscaped
@@ -27,7 +33,7 @@ func genZettelList(entries []ZettelListEntry) string {
 		builder.WriteString("<li>\n")
 
 		// checkbox input für anklicken
-		builder.WriteString(fmt.Sprintf(`<input type="checkbox" id="%s" name="zettel" value="%s"/>`, checkboxID, idEscaped))
+		builder.WriteString(fmt.Sprintf(`<input type="checkbox" id="%s" name="%s" %s>`, checkboxID, idEscaped, checkboxEnabled))
 		// label mit for=checkboxID, Name anzeigen
 		builder.WriteString(fmt.Sprintf(`<label for="%s">%s</label>`, checkboxID, nameEscaped))
 
