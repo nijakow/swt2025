@@ -1,9 +1,7 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
-	"net/http"
 )
 
 // struct für Metadaten
@@ -19,36 +17,6 @@ func (meta *SimpleZettelMeta) GetTitle() string {
 		return title
 	}
 	return "Untitled"
-}
-
-func getMetadataForZettel(id string) (SimpleZettelMeta, error) {
-	// Anfrage ist: // GET ZETTELSTORE_URL + "/z/id?part=meta"
-	resp, err := http.Get(ZETTELSTORE_URL + "/z/" + id + "?part=meta")
-
-	if err != nil {
-		return SimpleZettelMeta{}, err
-	}
-
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return SimpleZettelMeta{}, fmt.Errorf("Whoops %s: %s", id, resp.Status)
-	}
-
-	buf := new(bytes.Buffer)
-	_, err = buf.ReadFrom(resp.Body)
-
-	if err != nil {
-		return SimpleZettelMeta{}, fmt.Errorf("Whoops II %s: %s", id, err)
-	}
-
-	meta, err := parseZettelMetadata(buf.Bytes())
-
-	if err != nil {
-		return SimpleZettelMeta{}, fmt.Errorf("Whoops III %s: %s", id, err)
-	}
-
-	return meta, nil
 }
 
 func getTitleOfZettel(id string) string {

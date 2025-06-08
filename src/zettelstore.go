@@ -21,3 +21,9 @@ func fetchZettelstoreQuery(query string, sorted bool) ([]SimpleZettel, string) {
 func fetchZettelstoreContext(id string, sorted bool) ([]SimpleZettel, string) {
 	return fetchZettelstoreQuery("CONTEXT "+id, sorted)
 }
+
+func getMetadataForZettel(id string) (SimpleZettelMeta, error) {
+	resp, err := http.Get(ZETTELSTORE_URL + "/z/" + id + "?part=meta")
+
+	return parseZettelMetadataFromResponse(resp, err)
+}

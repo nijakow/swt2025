@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"sort"
 )
@@ -90,4 +91,31 @@ func parseZettelMetadata(buffer []byte) (SimpleZettelMeta, error) {
 	}
 
 	return SimpleZettelMeta{Meta: meta}, nil
+}
+
+func parseZettelMetadataFromResponse(resp *http.Response, err error) (SimpleZettelMeta, error) {
+	if err != nil {
+		return SimpleZettelMeta{}, err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return SimpleZettelMeta{}, fmt.Errorf("Whoops %s", resp.Status)
+	}
+
+	buf := new(bytes.Buffer)
+	_, err = buf.ReadFrom(resp.Body)
+
+	if err != nil {
+		return SimpleZettelMeta{}, fmt.Errorf("Whoops II %s", err)
+	}
+
+	meta, err := parseZettelMetadata(buf.Bytes())
+
+	if err != nil {
+		return SimpleZettelMeta{}, fmt.Errorf("Whoops III %s", err)
+	}
+
+	return meta, nil
 }
