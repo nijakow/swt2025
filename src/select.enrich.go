@@ -13,8 +13,9 @@ func enrichZettelId(id string, session *Session) (ZettelListEntry, error) {
 		return ZettelListEntry{}, err
 	}
 	return ZettelListEntry{
-		Id:   id,
-		Name: title,
+		Id:          id,
+		Name:        title,
+		InWarenkorb: session.ContainsZettel(id),
 	}, nil
 }
 

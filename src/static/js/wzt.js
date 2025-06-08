@@ -6,11 +6,11 @@ function addZettelToWarenkorb(zettelId) {
      */
     const currentUrl = window.location.href;
     const redirectUrl = encodeURIComponent(currentUrl);
-    window.location.href = `/api/add?id=${zettelId}&redirectBackTo=${redirectUrl}`;
+    window.location.href = `/api/add?id=${zettelId}`;
 }
 
 function removeZettelFromWarenkorb(zettelId) {
     const currentUrl = window.location.href;
     const redirectUrl = encodeURIComponent(currentUrl);
-    window.location.href = `/api/remove?id=${zettelId}&redirectBackTo=${redirectUrl}`;
+    window.location.href = `/api/remove?id=${zettelId}`;
 }

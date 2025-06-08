@@ -5,7 +5,15 @@ import "net/http"
 func handleApiRequestEnd(w http.ResponseWriter, r *http.Request, session *Session) {
 	// Diese Funktion wird aufgerufen, um eine API-Anfrage zu beenden. Sie leitet ggf.
 	// wieder auf die Ursprungsseite zurück.
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+
+	redirect := r.Referer()
+
+	if redirect == "" {
+		// Wenn kein Referer angegeben ist, leiten wir auf die Startseite um
+		redirect = "/"
+	}
+
+	http.Redirect(w, r, redirect, http.StatusSeeOther)
 }
 
 func apiAdd(w http.ResponseWriter, r *http.Request) {
