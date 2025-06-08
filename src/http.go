@@ -18,8 +18,8 @@ func constructPage(w http.ResponseWriter, content string) {
 		<body>
 			<nav class="zs-menu">
 				<a href="/">Home</a>
-				<a href="/download">Download ZIP</a>
-				<a href="/query?query=example">Query</a>
+				<!-- <a href="/download">Download ZIP</a> -->
+				<!-- <a href="/query?query=example">Query</a> -->
 				<a href="/list">Zettelliste</a>
 				<a href="/warenkorb">Warenkorb</a>
 			</nav>
