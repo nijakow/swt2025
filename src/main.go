@@ -39,10 +39,9 @@ func main() {
 	http.HandleFunc("/context", pageContext)
 
 	/*
-	 * Debug endpoints
+	 * Special
 	 */
 	http.HandleFunc("/download", apiDownload)
-	http.HandleFunc("/contextDisplay", contextDisplay)
 
 	port := OUR_PORT
 	fmt.Printf("Starting server on port %s...\n", port)
