@@ -1,6 +1,9 @@
 package main
 
-import "bytes"
+import (
+	"bytes"
+	"sort"
+)
 
 // struct für einen Zettel mit ID und Name
 type SimpleZettel struct {
@@ -8,7 +11,13 @@ type SimpleZettel struct {
 	Name string
 }
 
-func parseZettelstoreResponse(buffer *bytes.Buffer, err error) ([]SimpleZettel, string) {
+func simpleZettelCompare(a, b *SimpleZettel) bool {
+	// Vergleicht zwei SimpleZettel nach ID
+	// Gibt true zurück, wenn die ID von a kleiner ist als die von b
+	return a.Id < b.Id
+}
+
+func parseZettelstoreResponse(buffer *bytes.Buffer, err error, sorted bool) ([]SimpleZettel, string) {
 	// if-Statement prüft, ob beim Lesen der Antwort ein Fehler aufgetreten ist
 	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
 	if err != nil {
@@ -40,6 +49,13 @@ func parseZettelstoreResponse(buffer *bytes.Buffer, err error) ([]SimpleZettel, 
 		name := string(parts[1]) // Extrahiert den Zettel-Namen
 		// Fügt den Zettel dem struct SimpleZettel hinzu
 		entries = append(entries, SimpleZettel{Id: id, Name: name})
+	}
+
+	// Sortieren der Zettel nach ID (falls gewünscht)
+	if sorted {
+		sort.Slice(entries, func(i, j int) bool {
+			return simpleZettelCompare(&entries[i], &entries[j])
+		})
 	}
 
 	// Gibt die fertige Liste von Zetteln und eine leere Fehlermeldung zurück

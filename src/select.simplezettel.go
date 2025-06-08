@@ -30,7 +30,7 @@ func get_zettel_list() ([]SimpleZettel, string) {
 	buf := new(bytes.Buffer)
 	_, err = buf.ReadFrom(resp.Body)
 
-	return parseZettelstoreResponse(buf, err)
+	return parseZettelstoreResponse(buf, err, true)
 }
 
 // Dieses File wurde mit Hilfe von GitHub Copilot erstellt.
