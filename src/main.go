@@ -16,15 +16,31 @@ func main() {
 
 	// Serve static files (CSS, JS, etc.)
 	fs := http.FileServer(http.Dir("./static"))
+
+	/*
+	 * API
+	 */
+	http.HandleFunc("/api/add", apiAdd)
+
+	/*
+	 * Static
+	 */
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
+	/*
+	 * Pages
+	 */
 	http.HandleFunc("/", pageHome)
+	http.HandleFunc("/list", pageList)
+	http.HandleFunc("/warenkorb", pageWarenkorb)
+	http.HandleFunc("/about", pageAbout)
+
+	/*
+	 * Debug endpoints
+	 */
 	http.HandleFunc("/download", downloader)
 	http.HandleFunc("/query", query_downloader)
 	http.HandleFunc("/contextDisplay", contextDisplay)
-	http.HandleFunc("/warenkorb", pageWarenkorb)
-	http.HandleFunc("/list", pageList)
-	http.HandleFunc("/about", pageAbout)
 
 	port := OUR_PORT
 	fmt.Printf("Starting server on port %s...\n", port)
