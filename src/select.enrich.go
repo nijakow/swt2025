@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func getZettelTitleById(id string) (string, error) {
 	// This function should fetch the title of a zettel by its ID.
 	// For now, we return a placeholder title.
@@ -46,4 +48,24 @@ func enrichSimpleZettelList(entries []SimpleZettel, session *Session) []ZettelLi
 		enrichedEntries = append(enrichedEntries, enrichSimpleZettel(zettel, session))
 	}
 	return enrichedEntries
+}
+
+func queryEnrichedZettelstoreList(endpoint string, session *Session, sorted bool) ([]ZettelListEntry, error) {
+	zettel, err := queryZettelstoreList(endpoint, sorted)
+	if err != "" {
+		return nil, fmt.Errorf("%s", err)
+	}
+
+	// Anreichern der einfachen Zettel mit ihren Titeln
+	return enrichSimpleZettelList(zettel, session), nil
+}
+
+func queryEnrichedZettelstoreQuery(query string, session *Session, sorted bool) ([]ZettelListEntry, error) {
+	zettel, err := queryZettelstoreQuery(query, sorted)
+	if err != "" {
+		return nil, fmt.Errorf("%s", err)
+	}
+
+	// Anreichern der einfachen Zettel mit ihren Titeln
+	return enrichSimpleZettelList(zettel, session), nil
 }

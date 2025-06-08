@@ -35,12 +35,12 @@ func main() {
 	http.HandleFunc("/list", pageList)
 	http.HandleFunc("/warenkorb", pageWarenkorb)
 	http.HandleFunc("/about", pageAbout)
+	http.HandleFunc("/query", pageQuery)
 
 	/*
 	 * Debug endpoints
 	 */
 	http.HandleFunc("/download", apiDownload)
-	http.HandleFunc("/query", query_downloader)
 	http.HandleFunc("/contextDisplay", contextDisplay)
 
 	port := OUR_PORT

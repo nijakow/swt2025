@@ -97,5 +97,9 @@ func queryZettelstoreList(endpoint string, sorted bool) ([]SimpleZettel, string)
 	return parseZettelstoreResponse(resp, err, sorted)
 }
 
+func queryZettelstoreQuery(query string, sorted bool) ([]SimpleZettel, string) {
+	return queryZettelstoreList("/z?q="+query, sorted)
+}
+
 // Teile dieses Codes wurden aus Datei select.simplezettel.go übernommen. Siehe Anmerkung dort.
 //  - EFN
