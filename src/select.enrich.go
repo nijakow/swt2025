@@ -4,7 +4,7 @@ func getZettelTitleById(id string) (string, error) {
 	// This function should fetch the title of a zettel by its ID.
 	// For now, we return a placeholder title.
 	// In a real implementation, this would query the Zettelstore or database.
-	return "Placeholder Title for " + id, nil
+	return getTitleOfZettel(id), nil
 }
 
 func enrichZettelId(id string, session *Session) (ZettelListEntry, error) {
