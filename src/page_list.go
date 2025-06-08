@@ -7,12 +7,17 @@ import (
 
 func pageList(w http.ResponseWriter, r *http.Request) {
 	session := HandleCookies(w, r)
-	constructPage(w,
-		fmt.Sprintf(`
-				<h1>Warenkorb</h1>
-				%s
-			`,
-			genZettelList(listWarenkorb(session)),
-		),
-	)
+	zettels, e := getEnrichedZettelList(session)
+	if e != nil {
+		constructPage(w, "<h1>Fehler, Zettel konnten nicht abgerufen werden!</h1>")
+	} else {
+		constructPage(w,
+			fmt.Sprintf(`
+					<h1>Alle Zettel</h1>
+					%s
+				`,
+				genZettelList(zettels),
+			),
+		)
+	}
 }
