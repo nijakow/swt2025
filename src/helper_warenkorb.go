@@ -1,5 +1,5 @@
 package main
 
-func listWarenkorb(session *Session) []ZettelListEntry {
-	return []ZettelListEntry{} // TODO
+func listWarenkorb(session *Session) ([]ZettelListEntry, error) {
+	return enrichZettelIds(session.GetZettels())
 }

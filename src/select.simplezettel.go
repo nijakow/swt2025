@@ -1,10 +1,21 @@
 // Abruf der Zettel-Liste
 package main
 
+import "fmt"
+
 // 'get_zettel_list' gibt eine Liste aller Zettel zurück (ohne Tags)
 // ruft die Zettelliste vom Zettelstore ab und parst sie in SimpleZettel-Structs
 func get_zettel_list() ([]SimpleZettel, string) {
 	return queryZettelstoreList("/z", true)
+}
+
+func getEnrichedZettelList() ([]ZettelListEntry, error) {
+	simpleZettels, e := get_zettel_list()
+	if e != "" {
+		return nil, fmt.Errorf("Fehler! %s", e)
+	}
+	// Enrich the simple zettels with their titles
+	return enrichSimpleZettelList(simpleZettels), nil
 }
 
 // Verbleibende Anmerkung aus Datei vor Änderungen am 08. Juni 2025:
