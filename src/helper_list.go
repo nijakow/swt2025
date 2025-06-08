@@ -22,6 +22,7 @@ func genZettelList(entries []ZettelListEntry) string {
 		idEscaped := html.EscapeString(e.Id)
 		nameEscaped := html.EscapeString(e.Name)
 		checkboxEnabled := "checked"
+		zettelURL := ZETTELSTORE_URL + "/h/" + idEscaped
 
 		if !e.InWarenkorb {
 			checkboxEnabled = ""
@@ -35,7 +36,7 @@ func genZettelList(entries []ZettelListEntry) string {
 		// checkbox input für anklicken
 		builder.WriteString(fmt.Sprintf(`<input type="checkbox" id="%s" name="%s" %s>`, checkboxID, idEscaped, checkboxEnabled))
 		// label mit for=checkboxID, Name anzeigen
-		builder.WriteString(fmt.Sprintf(`<label for="%s">%s</label>`, checkboxID, nameEscaped))
+		builder.WriteString(fmt.Sprintf(`<label for="%s"><a href="%s">%s</a></label>`, checkboxID, zettelURL, nameEscaped))
 
 		// Falls Tags vorhanden sind, diese in <small> listen
 		if len(e.Tags) > 0 {
