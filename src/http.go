@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html"
 	"net/http"
 	"strings"
 )
@@ -32,19 +33,14 @@ func constructPage(w http.ResponseWriter, content string) {
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
+	// Hole die Zettelliste mit Tags
 	zettels, errMsg := fetchZettelWithTags()
 	var zettelListHTML string
 	if errMsg != "" {
 		zettelListHTML = fmt.Sprintf("<p>Error: %s</p>", errMsg)
 	} else {
-		zettelListHTML = "<ul>"
-		for _, z := range zettels {
-			zettelListHTML += fmt.Sprintf(
-				`<li>%s <a href="%s/h/%s">%s</a> %s</li>`,
-				z.Id, ZETTELSTORE_URL, z.Id, z.Name, strings.Join(z.Tags, ", "),
-			)
-		}
-		zettelListHTML += "</ul>"
+		// Verwende die neue Funktion genZettelList, um die HTML-Liste zu generieren
+		zettelListHTML = genZettelList(zettels)
 	}
 
 	constructPage(w,
@@ -59,7 +55,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
                     <button type="submit" class="zs-primary">Search</button>
                 </form>
                 <h2>Zettel List</h2>
+				<form action="/download" method="POST"
                 %s
+				<button type="submit">Download Selected</button>
+				</form>
+
     `, zettelListHTML),
 	)
 }
@@ -114,15 +114,49 @@ func query_downloader(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html")
 	if len(results) == 0 {
-		fmt.Fprintf(w, "<p>No results found for query: %s</p>", query)
-	} else {
-		fmt.Fprintf(w, "<h1>Search Results for '%s'</h1><ul>", query)
-		for _, z := range results {
-			fmt.Fprintf(w, "<li><a href=\"%s/h/%s\">%s</a> <span class='tags'>[%s]</span></li>",
-				ZETTELSTORE_URL, z.Id, z.Name, strings.Join(z.Tags, ", "))
-		}
-		fmt.Fprintf(w, "</ul>")
+		fmt.Fprintf(w, `
+        <!DOCTYPE html>
+        <html lang="de">
+        <head>
+            <meta charset="UTF-8" />
+            <title>Suchergebnisse</title>
+            <link rel="stylesheet" href="/static/css/styles.css">
+        </head>
+        <body>
+            <main class="container mx-auto p-6">
+                <h1 class="text-4xl font-bold mb-6">Suchergebnisse für '%s'</h1>
+                <p class="text-gray-500">Keine Ergebnisse gefunden.</p>
+                <p><a href="/" class="underline text-black hover:text-gray-600">Zurück zur Startseite</a></p>
+            </main>
+        </body>
+        </html>
+        `, html.EscapeString(query))
+		return
 	}
+
+	// Ergebnisse mit Checkboxen generieren
+	resultListHTML := genZettelList(results)
+	// HTML-Seite mit den Suchergebnissen
+	fmt.Fprintf(w, `
+    <!DOCTYPE html>
+    <html lang="de">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Suchergebnisse</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
+    </head>
+    <body>
+        <main class="container mx-auto p-6">
+            <h1 class="text-4xl font-bold mb-6">Suchergebnisse für '%s'</h1>
+            <form action="/download" method="POST" class="space-y-6">
+                %s
+                <button type="submit" class="btn-primary">Ausgewählte Zettel herunterladen</button>
+            </form>
+            <p class="mt-8"><a href="/" class="underline text-black hover:text-gray-600">Zurück zur Startseite</a></p>
+        </main>
+    </body>
+    </html>
+    `, html.EscapeString(query), resultListHTML)
 }
 
 func containsIgnoreCase(str, substr string) bool {
