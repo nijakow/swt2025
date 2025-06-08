@@ -10,6 +10,10 @@ func fetchZettelstoreList(endpoint string, sorted bool) ([]SimpleZettel, string)
 	return parseSimpleZettelsFromResponse(resp, err, sorted)
 }
 
+func fetchZettelstoreAll(sorted bool) ([]SimpleZettel, string) {
+	return fetchZettelstoreList("/z", sorted)
+}
+
 func fetchZettelstoreQuery(query string, sorted bool) ([]SimpleZettel, string) {
 	return fetchZettelstoreList("/z?q="+query, sorted)
 }

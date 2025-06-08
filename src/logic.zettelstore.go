@@ -12,6 +12,16 @@ func fetchEnrichedZettelstoreList(endpoint string, session *Session, sorted bool
 	return enrichSimpleZettelList(zettel, session), nil
 }
 
+func fetchEnrichedZettelstoreAll(session *Session, sorted bool) ([]ZettelListEntry, error) {
+	zettel, err := fetchZettelstoreAll(sorted)
+	if err != "" {
+		return nil, fmt.Errorf("%s", err)
+	}
+
+	// Anreichern der einfachen Zettel mit ihren Titeln
+	return enrichSimpleZettelList(zettel, session), nil
+}
+
 func fetchEnrichedZettelstoreQuery(query string, session *Session, sorted bool) ([]ZettelListEntry, error) {
 	zettel, err := fetchZettelstoreQuery(query, sorted)
 	if err != "" {

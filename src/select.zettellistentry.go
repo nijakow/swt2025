@@ -108,6 +108,7 @@ func getZettelIDToTagsMap() (map[string][]string, string) {
 
 }
 
+/*
 // 3. Funktion: Fügt den Zetteln die Tags hinzu (basierend auf den ersten beiden Funktionen)
 
 // 'fetchZettelWithTags' gibt eine Liste von Zetteln mit ihren zugehörigen Tags zurück
@@ -146,6 +147,7 @@ func fetchZettelWithTags() ([]ZettelListEntry, string) {
 	// Gibt die fertige Liste von Zetteln mit Tags und eine leere Fehlermeldung zurück
 	return entries, ""
 }
+*/
 
 // Dieses File wurde mit Hilfe von GitHub Copilot erstellt.
 // Für folgende Prompts wurde GitHub Copilot verwendet:
