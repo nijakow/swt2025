@@ -11,7 +11,7 @@ type SimpleZettel struct {
 	Name string
 }
 
-func simpleZettelCompare(a, b *SimpleZettel) bool {
+func simpleZettelCompare(a *SimpleZettel, b *SimpleZettel) bool {
 	// Vergleicht zwei SimpleZettel nach ID
 	// Gibt true zurück, wenn die ID von a kleiner ist als die von b
 	return a.Id < b.Id
@@ -53,7 +53,7 @@ func parseZettelstoreResponse(buffer *bytes.Buffer, err error, sorted bool) ([]S
 
 	// Sortieren der Zettel nach ID (falls gewünscht)
 	if sorted {
-		sort.Slice(entries, func(i, j int) bool {
+		sort.Slice(entries, func(i int, j int) bool {
 			return simpleZettelCompare(&entries[i], &entries[j])
 		})
 	}
