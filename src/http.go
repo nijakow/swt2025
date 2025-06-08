@@ -20,7 +20,8 @@ func constructPage(w http.ResponseWriter, content string) {
 				<a href="/">Home</a>
 				<a href="/download">Download ZIP</a>
 				<a href="/query?query=example">Query</a>
-				<a href="/warenkorb">Warenkorb!!!</a>
+				<a href="/list">Zettelliste</a>
+				<a href="/warenkorb">Warenkorb</a>
 			</nav>
 			<main>
 				%s
