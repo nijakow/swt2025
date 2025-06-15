@@ -14,6 +14,7 @@ import (
 // 'getAllTagsWithZettelIDs' gibt eine Map zurück: Tag -> ZettelID
 // ruft alle Tags mit zugehörigen Zettel-IDs vom Zettelstore ab
 func getAllTagsWithZettelIDs() (map[string][]string, string) {
+	// Diese Funktion wurde vollständig von GitHub Copilot generiert.
 
 	// 'http.Get' führt einen HTTP-GET-Request an die Tag-API des Zettelstores aus
 	// notwendig, um alle Tags mit ihren Zettel-IDs zu erhalten
@@ -76,6 +77,7 @@ func getAllTagsWithZettelIDs() (map[string][]string, string) {
 // 'getZettelIDToTagsMap" gibt eine Map zurück: ZettelID -> []Tag
 // kehrt die Tag-Zuordnung um, sodass zu jeder Zettel-ID die zugehörigen Tags gefunden werden können
 func getZettelIDToTagsMap() (map[string][]string, string) {
+	// Diese Funktion wurde vollständig von GitHub Copilot generiert.
 
 	// 'getAllTagsWithZettelIDs' holt die Map Tag -> []ZettelID
 	// ruft die Funktion auf, die alle Tags mit ihren Zettel-IDs liefert
@@ -114,6 +116,8 @@ func getZettelIDToTagsMap() (map[string][]string, string) {
 // 'fetchZettelWithTags' gibt eine Liste von Zetteln mit ihren zugehörigen Tags zurück
 // nutzt die zentrale Zettelliste und die Tag-Zuordnung
 func fetchZettelWithTags() ([]ZettelListEntry, string) {
+	// Diese Funktion wurde vollständig von GitHub Copilot generiert.
+
 	// Hole alle einfachen Zettel (Id, Name)
 	// 'get_zettel_list' ruft die Zettelliste vom Zettelstore ab
 	// ermöglicht die weitere Verarbeitung der Zettel

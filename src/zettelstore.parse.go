@@ -8,6 +8,7 @@ import (
 )
 
 func parseSimpleZettels(buffer *bytes.Buffer, err error, sorted bool) ([]SimpleZettel, string) {
+	// Diese Funktion wurde vollständig von GitHub Copilot generiert.
 	// if-Statement prüft, ob beim Lesen der Antwort ein Fehler aufgetreten ist
 	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
 	if err != nil {
@@ -56,6 +57,7 @@ func parseSimpleZettels(buffer *bytes.Buffer, err error, sorted bool) ([]SimpleZ
 }
 
 func parseSimpleZettelsFromResponse(resp *http.Response, err error, sorted bool) ([]SimpleZettel, string) {
+	// Diese Funktion wurde vollständig von GitHub Copilot generiert.
 	// if-Statement prüft, ob beim HTTP-Request ein Fehler aufgetreten ist
 	// ermöglicht die Fehlerbehandlung und Rückgabe einer Fehlermeldung
 	if err != nil {
@@ -74,6 +76,13 @@ func parseSimpleZettelsFromResponse(resp *http.Response, err error, sorted bool)
 	// Ruft die Funktion auf, um die Zettel zu parsen
 	return parseSimpleZettels(buf, err, sorted)
 }
+
+// Teile der Funktionen pareseSimpleZettels und parseSimpleZettelsFromResponse standen vor dem 08. Juni 2025 im File select.simplezettel.go.
+// Im Rahmen von Refactoring-Maßnahmen wurde der urspüngliche Code verschoben und überarbeitet.
+// Im ursprünglichen File wurden folgende Prompts von GitHub Copilot verwendet:
+// Schreibe auf der Grundlage des bestehenden Codes eine Funktion, die ID und Name von Zetteln als struct zurückgibt.
+// Die Funktion soll die Zettelliste vom Zettelstore abrufen und im SimpleZettel-struct parsen.
+// Für Kommentare wurde teilweise der automatische Vervollständigungsvorschlag von GitHub Copilot übernommen.
 
 func parseZettelMetadata(buffer []byte) (SimpleZettelMeta, error) {
 	// Hier wird angenommen, dass die Metadaten im Format "key: value" vorliegen
