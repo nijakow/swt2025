@@ -1,6 +1,7 @@
 package main
 
 // struct für einen Zettel mit ID und Name
+// Dieses Struct wurde vollständig von GitHub Copilot generiert.
 type SimpleZettel struct {
 	Id   string
 	Name string
