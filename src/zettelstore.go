@@ -19,7 +19,7 @@ func fetchZettelstoreQuery(query string, sorted bool) ([]SimpleZettel, string) {
 }
 
 func fetchZettelstoreContext(id string, sorted bool) ([]SimpleZettel, string) {
-	return fetchZettelstoreQuery("CONTEXT "+id, sorted)
+	return fetchZettelstoreQuery("CONTEXT%20"+id, sorted)
 }
 
 func getMetadataForZettel(id string) (SimpleZettelMeta, error) {
