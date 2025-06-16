@@ -11,7 +11,7 @@ func generateDownloadableFiles(ids []string) func() []File {
 	var result []File
 
 	for _, name := range ids {
-		url := ZETTELSTORE_URL + "/z/" + name + "?enc=zmk"
+		url := ZETTELSTORE_URL + "/z/" + name + "?enc=zmk&part=zettel"
 
 		resp, err := http.Get(url)
 		if err != nil {
