@@ -37,7 +37,7 @@ func genZettelList(entries []ZettelListEntry) string {
 
 		// checkbox input für anklicken
 		builder.WriteString(fmt.Sprintf(`<input type="checkbox" id="%s" name="%s" onclick="%s('%s')" %s>`, checkboxID, idEscaped, functionToCall, e.Id, checkboxEnabled))
-		// label mit for=checkboxID, Name anzeigen
+		builder.WriteString(fmt.Sprintf(`<a href="/context?id=%s">🔍</a> `, idEscaped))
 		builder.WriteString(fmt.Sprintf(`<label for="%s"><a href="%s">%s</a></label>`, checkboxID, zettelURL, nameEscaped))
 
 		// Falls Tags vorhanden sind, diese in <small> listen

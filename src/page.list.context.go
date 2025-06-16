@@ -1,6 +1,8 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
 
 func pageContext(w http.ResponseWriter, r *http.Request) {
 	session := HandleCookies(w, r)
