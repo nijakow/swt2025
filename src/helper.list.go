@@ -57,3 +57,6 @@ func genZettelList(entries []ZettelListEntry) string {
 	builder.WriteString("</ul>")
 	return builder.String()
 }
+
+// Diese Datei wurde in Teilen von BLACKBOX.AI generiert.
+// Die folgenden Zeilen sind betroffen: (Z.3-7), (Z.17-23), (Z.33-38), (Z.43-58)
