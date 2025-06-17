@@ -15,11 +15,12 @@ func fetchZettelstoreAll(sorted bool) ([]SimpleZettel, string) {
 }
 
 func fetchZettelstoreQuery(query string, sorted bool) ([]SimpleZettel, string) {
-	return fetchZettelstoreList("/z?q="+query, sorted)
+	// Escape the query string to ensure it is safe for use in a URL
+	return fetchZettelstoreList("/z?q="+escapeHttpSafe(query), sorted)
 }
 
 func fetchZettelstoreContext(id string, sorted bool) ([]SimpleZettel, string) {
-	return fetchZettelstoreQuery("CONTEXT%20"+id, sorted)
+	return fetchZettelstoreQuery("CONTEXT "+id, sorted)
 }
 
 func getMetadataForZettel(id string) (SimpleZettelMeta, error) {

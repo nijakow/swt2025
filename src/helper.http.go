@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 )
 
 func constructPage(w http.ResponseWriter, content string) {
@@ -27,4 +28,9 @@ func constructPage(w http.ResponseWriter, content string) {
 		</body>
 		</html>
 	`, content)
+}
+
+func escapeHttpSafe(s string) string {
+	// Return the string so that it can be safely used in an HTTP request as a URI parameter (e.g. by turning spaces into %20)
+	return url.QueryEscape(s)
 }
